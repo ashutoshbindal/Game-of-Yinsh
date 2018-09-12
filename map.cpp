@@ -18,9 +18,100 @@ struct cordinate1
 	int point;
 };
 
+map<pair<int, int>, cordinate2> hex2cart;
+pair<int, int> cart2hex[11][11][11];
+
+vector<pair<int, int>> places(int h1, int p1, int h2, int p2){
+	cordinate1 temp1 = {h1, p1}, temp2 = {h2, p2};
+	cordinate2 temp3, temp4;
+	temp3 = hex2cart[temp1];
+	temp4 = hex2cart[temp2];
+	vector<pair<int, int>> v;
+	pair<int, int> p;
+	int flag = 1, x_val, y_val, z_val;
+	if(temp3.x == temp4.x){
+		int y = temp3.y - temp4.y;
+		if(y> 1){
+			for(int i= 0; i< y-1; i++){
+				x_val = temp3.x;
+				y_val = temp4.y + (i+1);
+				z_val = temp4.z + (i+1);
+				p = cart2hex[x_val][y_val][z_val];
+				if(flag == 1){
+					v.insert(v.begin(), p);
+					flag = 0;
+				}
+				else v.push_back(p);
+			}
+		}
+		if(y< -1){
+			for(int i= 0; i< y-1; i++){
+				x_val = temp3.x;
+				y_val = temp3.y + (i+1);
+				z_val = temp3.z + (i+1);
+				p = cart2hex[x_val][y_val][z_val];
+				if(flag == 1) v.insert(v.begin(), p);
+				else v.push_back(p);
+			}
+		}
+	}
+	if(temp3.y == temp4.y){
+		int y = temp3.x - temp4.x;
+		if(y> 1){
+			for(int i= 0; i< y-1; i++){
+				x_val = temp4.x + (i+1);
+				y_val = temp4.y;
+				z_val = temp4.z + (i+1);
+				p = cart2hex[x_val][y_val][z_val];
+				if(flag == 1) v.insert(v.begin(), p);
+				else v.push_back(p);
+			}
+		}
+		if(y< -1){
+			for(int i= 0; i< y-1; i++){
+				x_val = temp3.x + (i+1);
+				y_val = temp3.y;
+				z_val = temp3.z + (i+1);
+				p = cart2hex[x_val][y_val][z_val];
+				if(flag == 1){
+					v.insert(v.begin(), p);
+					flag = 0;
+				}
+				else v.push_back(p);
+			}
+		}
+	}
+	if(temp3.z == temp4.z){
+		int y = temp3.x - temp4.x;
+		if(y> 1){
+			for(int i= 0; i< y-1; i++){
+				x_val = temp4.x + (i+1);
+				y_val = temp4.y + (i+1);
+				z_val = temp4.z;
+				p = cart2hex[x_val][y_val][z_val];
+				if(flag == 1) v.insert(v.begin(), p);
+				else v.push_back(p);
+			}
+		}
+		if(y< -1){
+			for(int i= 0; i< y-1; i++){
+				x_val = temp3.x + (i+1);
+				y_val = temp3.y + (i+1);
+				z_val = temp3.z;
+				p = cart2hex[x_val][y_val][z_val];
+				if(flag == 1){
+					v.insert(v.begin(), p);
+					flag = 0;
+				}
+				else v.push_back(p);
+			}
+		}
+	}
+	return v;
+}
+
 int main(){
 	//hex2car
-	map<pair<int, int>, cordinate2> hex2cart;
 	pair<int, int> temp1;
 	cordinate2 temp2;
 
@@ -91,16 +182,13 @@ int main(){
 		hex2cart[temp1] = temp2;
 	}
 
-
 	vector<int>().swap(x);
 	vector<int>().swap(y);
 	vector<int>().swap(z);
 
-
 	//cart2hex
 
 	//hex0
-	pair<int, int> cart2hex[11][11][11];
 	temp1 = {0, 0};
 	temp2 = hex2cart[temp1];
 	cart2hex[temp2.x][temp2.y][temp2.z] = {0, 0};
