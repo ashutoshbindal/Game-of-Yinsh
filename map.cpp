@@ -3,26 +3,15 @@
 #include <vector>
 #include <map>
 
+#include "map.h"
+
 using namespace std;
-
-struct cordinate2
-{
-	int x;
-	int y;
-	int z;	
-};
-
-struct cordinate1
-{
-	int hex;
-	int point;
-};
 
 map<pair<int, int>, cordinate2> hex2cart;
 pair<int, int> cart2hex[11][11][11];
 
 vector<pair<int, int>> places(int h1, int p1, int h2, int p2){
-	cordinate1 temp1 = {h1, p1}, temp2 = {h2, p2};
+	pair<int, int> temp1 = {h1, p1}, temp2 = {h2, p2};
 	cordinate2 temp3, temp4;
 	temp3 = hex2cart[temp1];
 	temp4 = hex2cart[temp2];
@@ -110,7 +99,7 @@ vector<pair<int, int>> places(int h1, int p1, int h2, int p2){
 	return v;
 }
 
-int main(){
+void initialize(){
 	//hex2car
 	pair<int, int> temp1;
 	cordinate2 temp2;
@@ -200,6 +189,4 @@ int main(){
 			cart2hex[temp2.x][temp2.y][temp2.z] = {h, p};
 		}
 	}
-
-	return 0;
 }

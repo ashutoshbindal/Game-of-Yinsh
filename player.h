@@ -2,8 +2,12 @@
 #define	PLAYER_H
 
 #include <iostream>
+#include <string>
+#include <vector>
 
 using namespace std;
+
+void split(string, string, vector<string>&);
 
 class player{
 	public:
@@ -15,18 +19,20 @@ class player{
 		vector<pair<int, int>> marker_self;
 		vector<pair<int, int>> marker_opponent;
 
+		player();
+
 		void update_opponent(string);
 		void update_self(string);
 		void add_marker_self(int, int);
 		void add_marker_opponent(int, int);
-		void ring_mine(int, int);
-		void ring_opponent(int, int);
-		void ring_remove_mine(int, int);
+		void place_ring_self(int, int);
+		void place_ring_opponent(int, int);
+		void ring_remove_self(int, int);
 		void ring_remove_opponent(int, int);
-		void ring_update_mine(int, int, int, int);
+		void ring_update_self(int, int, int, int);
 		void ring_update_opponent(int, int, int, int);
 		int eval_func();
 		string get_move();
-}
+};
 
 #endif
