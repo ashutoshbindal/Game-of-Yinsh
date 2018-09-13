@@ -31,6 +31,10 @@ class player{
 		void ring_remove_opponent(int, int);
 		void ring_update_self(int, int, int, int);
 		void ring_update_opponent(int, int, int, int);
+
+		void switch_marker(int, int, int, int);
+		void remove_marker(int, int, int, int);
+		
 		int eval_func();
 		string get_move();
 };

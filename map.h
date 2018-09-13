@@ -17,7 +17,7 @@ struct cordinate2
 extern map<pair<int, int>, cordinate2> hex2cart;
 extern pair<int, int> cart2hex[11][11][11];
 
-vector<pair<int, int>> places(int, int, int, int);
+vector<pair<int, int> > places(int, int, int, int);
 
 void initialize();
 

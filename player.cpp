@@ -3,8 +3,10 @@
 #include <vector>
 
 #include "player.h"
+#include "map.h"
 
 using namespace std;
+
 //use it as: split(string, char_to_split, vector_string)
 void split(string str, string splitBy, vector<string>& tokens)
 {
@@ -59,6 +61,7 @@ void player::update_self(string move){
 			add_marker_self(stoi(segment[1]), stoi(segment[2]));
 
 			//switch the color of the markers in between
+            switch_marker(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
 		}
 		else if(segment.size() == 15){
 			ring_update_self(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
@@ -66,7 +69,10 @@ void player::update_self(string move){
 			add_marker_self(stoi(segment[1]), stoi(segment[2]));
 
 			//switch the color of the markers in between
+            switch_marker(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
+
 			//remove the markers from RS to RE
+            remove_marker(stoi(segment[7]), stoi(segment[8]), stoi(segment[10]), stoi(segment[11]));
 
 			ring_remove_self(stoi(segment[13]), stoi(segment[14]));
 		}
@@ -91,6 +97,7 @@ void player::update_opponent(string move){
 			add_marker_opponent(stoi(segment[1]), stoi(segment[2]));
 
 			//switch the color of the markers in between
+            switch_marker(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
 		}
 		else if(segment.size() == 15){
 			ring_update_opponent(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
@@ -98,7 +105,10 @@ void player::update_opponent(string move){
 			add_marker_opponent(stoi(segment[1]), stoi(segment[2]));
 
 			//switch the color of the markers in between
+            switch_marker(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
+
 			//remove the markers from RS to RE
+            remove_marker(stoi(segment[7]), stoi(segment[8]), stoi(segment[10]), stoi(segment[11]));
 
 			ring_remove_opponent(stoi(segment[13]), stoi(segment[14]));
 		}
@@ -168,6 +178,36 @@ void player::add_marker_self(int hex, int pos){
 
 void player::add_marker_opponent(int hex, int pos){
 	marker_opponent.push_back(pair<int, int>(hex, pos));
+}
+
+void player::switch_marker(int hex1, int pos1, int hex2, int pos2){
+    vector<pair<int, int> > mark = places(hex1, pos1, hex2, pos2);
+
+    for(int i=0; i<mark.size(); i++)
+    {
+        if( find(marker_self.begin(), marker_self.end(), mark[i]) != marker_self.end() ){
+            marker_self.erase(remove(marker_self.begin(), marker_self.end(), mark[i]), marker_self.end());
+            marker_opponent.push_back(mark[i]);
+        }
+        else if( find(marker_opponent.begin(), marker_opponent.end(), mark[i]) != marker_opponent.end() ){
+            marker_opponent.erase(remove(marker_opponent.begin(), marker_opponent.end(), mark[i]), marker_opponent.end());
+            marker_self.push_back(mark[i]);
+        }
+    }
+}
+
+void player::remove_marker(int hex1, int pos1, int hex2, int pos2){
+    vector<pair<int, int> > mark = places(hex1, pos1, hex2, pos2);
+
+    for(int i=0; i<mark.size(); i++)
+    {
+        if( find(marker_self.begin(), marker_self.end(), mark[i]) != marker_self.end() ){
+            marker_self.erase(remove(marker_self.begin(), marker_self.end(), mark[i]), marker_self.end());
+        }
+        else if( find(marker_opponent.begin(), marker_opponent.end(), mark[i]) != marker_opponent.end() ){
+            marker_opponent.erase(remove(marker_opponent.begin(), marker_opponent.end(), mark[i]), marker_opponent.end());
+        }
+    }
 }
 
 string player::get_move(){
