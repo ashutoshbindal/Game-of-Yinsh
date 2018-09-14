@@ -9,6 +9,7 @@ using namespace std;
 
 map<pair<int, int>, cordinate2> hex2cart;
 pair<int, int> cart2hex[11][11][11];
+vector<marker> board_state[11][3];
 
 vector<pair<int, int>> places(int h1, int p1, int h2, int p2){
 	pair<int, int> temp1 = {h1, p1}, temp2 = {h2, p2};
@@ -189,4 +190,10 @@ void initialize(){
 			cart2hex[temp2.x][temp2.y][temp2.z] = {h, p};
 		}
 	}
+}
+
+marker::marker(int a, int b, bool m){
+	this->x = a;
+	this->y = b;
+	this->token = m;
 }

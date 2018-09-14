@@ -174,10 +174,28 @@ void player::ring_remove_opponent(int hex, int pos){
 
 void player::add_marker_self(int hex, int pos){
 	marker_self.push_back(pair<int, int>(hex, pos));
+
+    //adding the marker to board_state
+    cordinate2 temp_marker = hex2cart[pair<int, int>(hex, pos)];
+    marker m1 (cordinate2.y, cordinate2.z, true);
+    marker m2 (cordinate2.z, cordinate2.x, true);
+    marker m3 (cordinate2.x, cordinate2.y, true);
+    board_state[cordinate2.x][0].push_back(m1);
+    board_state[cordinate2.y][1].push_back(m2);
+    board_state[cordinate2.z][2].push_back(m3);
 }
 
 void player::add_marker_opponent(int hex, int pos){
 	marker_opponent.push_back(pair<int, int>(hex, pos));
+
+    //adding the marker to board_state
+    cordinate2 temp_marker = hex2cart[pair<int, int>(hex, pos)];
+    marker m1 (cordinate2.y, cordinate2.z, false);
+    marker m2 (cordinate2.z, cordinate2.x, false);
+    marker m3 (cordinate2.x, cordinate2.y, false);
+    board_state[cordinate2.x][0].push_back(m1);
+    board_state[cordinate2.y][1].push_back(m2);
+    board_state[cordinate2.z][2].push_back(m3);
 }
 
 void player::switch_marker(int hex1, int pos1, int hex2, int pos2){
@@ -194,6 +212,38 @@ void player::switch_marker(int hex1, int pos1, int hex2, int pos2){
             marker_self.push_back(mark[i]);
         }
     }
+
+    //switching the markers on the board_state
+    for(int i=0; i<mark.size(); i++){
+        pair<int, int> temp_hex = mark[i];
+        cordinate2 temp = hex2cart[temp_hex];
+
+        //checking along each axis for the marker and flipping
+        vector<marker> board_x = board_state[temp.x][0];
+        for(int j=0; j<board_x.size(); j++){
+            if(board_x[j].x == temp.y && board_x[j].y == temp.z){
+                board_x[j].token ^= true;
+                board_state[temp.x][0] = board_x;
+                break;
+            }
+        }
+        vector<marker> board_y = board_state[temp.y][1];
+        for(int j=0; j<board_y.size(); j++){
+            if(board_y[j].x == temp.z && board_y[j].y == temp.x){
+                board_y[j].token ^= true;
+                board_state[temp.y][1] = board_y;
+                break;
+            }
+        }
+        vector<marker> board_z = board_state[temp.z][2];
+        for(int j=0; j<board_z.size(); j++){
+            if(board_z[j].x == temp.x && board_z[j].y == temp.y){
+                board_z[j].token ^= true;
+                board_state[temp.z][2] = board_z;
+                break;
+            }
+        }
+    }
 }
 
 void player::remove_marker(int hex1, int pos1, int hex2, int pos2){
@@ -206,6 +256,40 @@ void player::remove_marker(int hex1, int pos1, int hex2, int pos2){
         }
         else if( find(marker_opponent.begin(), marker_opponent.end(), mark[i]) != marker_opponent.end() ){
             marker_opponent.erase(remove(marker_opponent.begin(), marker_opponent.end(), mark[i]), marker_opponent.end());
+        }
+    }
+
+    //removing the marker from the board_state
+    for(int i=0; i<mark.size(); i++){
+        pair<int, int> temp_hex = mark[i];
+        cordinate2 temp = hex2cart[temp_hex];
+
+        vector<marker> board_x = board_state[temp.x][0];
+        for(int j=0; j<board_x.size(); j++){
+            if(board_x[j].x == temp.y && board_x[j].y == temp.z){
+                board_x.erase(board_x.begin() + j);
+                j--;
+                board_state[temp.x][0] = board_x;
+                break;
+            }
+        }
+        vector<marker> board_y = board_state[temp.y][1];
+        for(int j=0; j<board_y.size(); j++){
+            if(board_y[j].x == temp.z && board_y[j].y == temp.x){
+                board_y.erase(board_y.begin() + j);
+                j--;
+                board_state[temp.y][1] = board_y;
+                break;
+            }
+        }
+        vector<marker> board_z = board_state[temp.z][2];
+        for(int j=0; j<board_z.size(); j++){
+            if(board_z[j].x == temp.x && board_z[j].y == temp.y){
+                board_z.erase(board_z.begin() + j);
+                j--;
+                board_state[temp.z][2] = board_z;
+                break;
+            }
         }
     }
 }
