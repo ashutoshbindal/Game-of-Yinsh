@@ -177,12 +177,12 @@ void player::add_marker_self(int hex, int pos){
 
     //adding the marker to board_state
     cordinate2 temp_marker = hex2cart[pair<int, int>(hex, pos)];
-    marker m1 (cordinate2.y, cordinate2.z, true);
-    marker m2 (cordinate2.z, cordinate2.x, true);
-    marker m3 (cordinate2.x, cordinate2.y, true);
-    board_state[cordinate2.x][0].push_back(m1);
-    board_state[cordinate2.y][1].push_back(m2);
-    board_state[cordinate2.z][2].push_back(m3);
+    marker m1 (temp_marker.y, temp_marker.z, true);
+    marker m2 (temp_marker.z, temp_marker.x, true);
+    marker m3 (temp_marker.x, temp_marker.y, true);
+    board_state[temp_marker.x][0].push_back(m1);
+    board_state[temp_marker.y][1].push_back(m2);
+    board_state[temp_marker.z][2].push_back(m3);
 }
 
 void player::add_marker_opponent(int hex, int pos){
@@ -190,12 +190,12 @@ void player::add_marker_opponent(int hex, int pos){
 
     //adding the marker to board_state
     cordinate2 temp_marker = hex2cart[pair<int, int>(hex, pos)];
-    marker m1 (cordinate2.y, cordinate2.z, false);
-    marker m2 (cordinate2.z, cordinate2.x, false);
-    marker m3 (cordinate2.x, cordinate2.y, false);
-    board_state[cordinate2.x][0].push_back(m1);
-    board_state[cordinate2.y][1].push_back(m2);
-    board_state[cordinate2.z][2].push_back(m3);
+    marker m1 (temp_marker.y, temp_marker.z, false);
+    marker m2 (temp_marker.z, temp_marker.x, false);
+    marker m3 (temp_marker.x, temp_marker.y, false);
+    board_state[temp_marker.x][0].push_back(m1);
+    board_state[temp_marker.y][1].push_back(m2);
+    board_state[temp_marker.z][2].push_back(m3);
 }
 
 void player::switch_marker(int hex1, int pos1, int hex2, int pos2){
