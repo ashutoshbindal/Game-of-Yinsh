@@ -4,6 +4,7 @@
 
 #include "player.h"
 #include "map.h"
+#include "possible_moves.h"
 
 using namespace std;
 

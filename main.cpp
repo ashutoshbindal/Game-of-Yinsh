@@ -2,6 +2,7 @@
 
 #include "map.h"
 #include "player.h"
+#include "possible_moves.h"
 
 using namespace std;
 
@@ -12,6 +13,7 @@ int main(int argc, char** argv) {
 
     //initialize the conversion data structure in map.h
     initialize();
+    place_bounds();
 
     // Get input from server about game specifications
     cin >> player_id >> board_size >> time_limit;

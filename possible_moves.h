@@ -22,3 +22,7 @@ extern int bound_y[11][4];
 extern int bound_z[11][4];
 
 void place_bounds();
+void bound_ring(int, int, int);
+void bound_marker(int, int, int);
+bool exist_marker(int, int, int);
+vector<cordinate2> give_positions(int, int, int);
