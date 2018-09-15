@@ -23,7 +23,7 @@ int main(){
 	// cout<<v[0];
 	// cout<<v[1];
 	cordinate2 temp[5];
-	// pair<int, int> temp[5];
+	pair<int, int> temp;
 	temp[0] = cordinate2 (1, 2, 3);
 	// cout<<temp[0].z;
 	// if(tell(21))	cout<<"rajan";

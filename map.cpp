@@ -11,6 +11,8 @@ map<pair<int, int>, cordinate2> hex2cart;
 pair<int, int> cart2hex[11][11][11];
 vector<marker> board_state[11][3];
 
+int board_state1[11][11][11];
+
 vector<pair<int, int>> places(int h1, int p1, int h2, int p2){
 	pair<int, int> temp1 = {h1, p1}, temp2 = {h2, p2};
 	cordinate2 temp3, temp4;
@@ -98,6 +100,16 @@ vector<pair<int, int>> places(int h1, int p1, int h2, int p2){
 		}
 	}
 	return v;
+}
+
+void initialize_board_state1(){
+	for(int i= 0; i< 11; i++){
+		for(int j= 0; j< 11; j++){
+			for(int k= 0; k< 11; k++){
+				board_state1[i][j][k] = -1;
+			}
+		}
+	}
 }
 
 void initialize(){
