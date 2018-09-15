@@ -395,7 +395,7 @@ vector<pair<cordinate2, cordinate2>> check_5(int x, int y, int z){
 			else{
 				val_mine= 1;
 				val_opponent= 0;
-				mine_flag= true;
+				mine_flag= true;j
 			}
 		}
 		if(board_state1[x][j][k]==1){
