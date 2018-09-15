@@ -16,25 +16,33 @@ class player{
 		int ring_self[5][2];
 		int ring_opponent[5][2];
 
-		vector<pair<int, int>> marker_self;
-		vector<pair<int, int>> marker_opponent;
+		vector<pair<int, int> > marker_self;
+		vector<pair<int, int> > marker_opponent;
 
 		player();
 
 		void update_opponent(string);
 		void update_self(string);
+		void undo_update_opponent(string);
+		void undo_update_self(string);
+
 		void add_marker_self(int, int);
 		void add_marker_opponent(int, int);
 		void place_ring_self(int, int);
 		void place_ring_opponent(int, int);
 		void ring_remove_self(int, int);
 		void ring_remove_opponent(int, int);
+		void ring_add_self(int, int);
+		void ring_add_opponent(int, int);
 		void ring_update_self(int, int, int, int);
 		void ring_update_opponent(int, int, int, int);
 
 		void switch_marker(int, int, int, int);
 		void remove_marker(int, int, int, int);
-		
+		void remove_single_marker(int, int);
+		void add_multiple_marker_self(int, int, int, int);
+		void add_multiple_marker_opponent(int, int, int, int);
+
 		int eval_func();
 		string get_move();
 };
