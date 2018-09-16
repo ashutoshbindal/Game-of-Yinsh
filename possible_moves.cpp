@@ -223,6 +223,7 @@ void update_board_score(int x, int y, int z){
 				mine_flag = true;
 				score_temp = score_temp - (val_opponent*val_opponent);
 				val_opponent = 0;
+				val_mine= 1;
 			}
 			else{
 				mine_flag = true;
@@ -236,6 +237,7 @@ void update_board_score(int x, int y, int z){
 				opponent_flag = true;
 				score_temp = score_temp + (val_mine*val_mine);
 				val_mine= 0;
+				val_opponent= 1;
 			}
 			else if(opponent_flag){
 				val_opponent++;
@@ -274,6 +276,7 @@ void update_board_score(int x, int y, int z){
 				mine_flag = true;
 				score_temp = score_temp - (val_opponent*val_opponent);
 				val_opponent = 0;
+				val_mine= 1;
 			}
 			else{
 				mine_flag = true;
@@ -287,6 +290,7 @@ void update_board_score(int x, int y, int z){
 				opponent_flag = true;
 				score_temp = score_temp + (val_mine*val_mine);
 				val_mine= 0;
+				val_opponent= 1;
 			}
 			else if(opponent_flag){
 				val_opponent++;
@@ -325,6 +329,7 @@ void update_board_score(int x, int y, int z){
 				mine_flag = true;
 				score_temp = score_temp - (val_opponent*val_opponent);
 				val_opponent = 0;
+				val_mine= 1;
 			}
 			else{
 				mine_flag = true;
@@ -338,6 +343,7 @@ void update_board_score(int x, int y, int z){
 				opponent_flag = true;
 				score_temp = score_temp + (val_mine*val_mine);
 				val_mine= 0;
+				val_opponent= 1;
 			}
 			else if(opponent_flag){
 				val_opponent++;
@@ -378,38 +384,55 @@ vector<pair<cordinate2, cordinate2>> check_5(int x, int y, int z){
 	cnt= 0;
 	mine_flag= false;
 	opponent_flag= false;
+	cordinate2 start_opponent, end_opponent, start_mine, end_mine;
 	vector<pair<cordinate2, cordinate2>> v;
 	for(j= bound_x[x][0]; j< bound_x[x][2]; j++){
 		k= bound_x[x][1]+cnt;
 		cnt++;
 		if(board_state1[x][j][k]== 0){
-			if(mine_flag)	val_mine++;
+			if(mine_flag){
+				val_mine++;
+				end_mine = {x, j, k};
+			}
 			else if(opponent_flag){
-				if(val_opponent== 5){
-					//do something
+				if(val_opponent>=5){
+					v_opponent.push_back(pair<cordinate2, cordinate2> (start_opponent, end_opponent));
+					val_opponent= 0;
+					break;
 				}
 				opponent_flag= false;
 				mine_flag= true;
+				val_mine++;
 				val_opponent= 0;
+				start_mine= {x, j, k};
 			}
 			else{
 				val_mine= 1;
+				start_mine = {x, j, k};
 				val_opponent= 0;
-				mine_flag= true;j
+				mine_flag= true;
 			}
 		}
 		if(board_state1[x][j][k]==1){
 			if(mine_flag){
-				if(val_mine==5){
-					//do something
+				if(val_mine>=5){
+					v_mine.push_back(pair<cordinate2, cordinate2> (start_mine, end_mine));
+					val_mine= 0;
+					break;
 				}
 				val_mine= 0;
 				mine_flag= false;
-				opponent_flag= false;
+				opponent_flag= true;
+				val_opponent = 1;
+				start_opponent = {x, j, k};
 			}
-			else if(opponent_flag)	opponent_flag++;
+			else if(opponent_flag){
+				opponent_flag++;
+				end_opponent = {x, j, k};
+			}
 			else{
-
+				val_mine= 0;
+				val_opponent= 1;
 			}
 		}
 	}
