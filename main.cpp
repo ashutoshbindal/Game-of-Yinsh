@@ -14,6 +14,8 @@ int main(int argc, char** argv) {
     //initialize the conversion data structure in map.h
     initialize();
     place_bounds();
+    initialize_score();
+    initialize_board_state1();
 
     // Get input from server about game specifications
     cin >> player_id >> board_size >> time_limit;
