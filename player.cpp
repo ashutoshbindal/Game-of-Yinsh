@@ -280,7 +280,7 @@ void player::switch_marker(int hex1, int pos1, int hex2, int pos2){
 
     //update board score
     for(int i=0; i<mark.size(); i++){
-        pair<int. int> temp_hex = mark[i];
+        pair<int, int> temp_hex = mark[i];
         cordinate2 temp = hex2cart[temp_hex];
 
         if(board_state1[temp.x][temp.y][temp.z] != -1){
@@ -343,7 +343,7 @@ vector<pair<int, int> > player::switch_marker_return(int hex1, int pos1, int hex
     }
     //update board score
     for(int i=0; i<mark.size(); i++){
-        pair<int. int> temp_hex = mark[i];
+        pair<int, int> temp_hex = mark[i];
         cordinate2 temp = hex2cart[temp_hex];
 
         if(board_state1[temp.x][temp.y][temp.z] != -1){
@@ -402,7 +402,7 @@ void player::remove_marker(int hex1, int pos1, int hex2, int pos2){
     }
     //update board score
     for(int i=0; i<mark.size(); i++){
-        pair<int. int> temp_hex = mark[i];
+        pair<int, int> temp_hex = mark[i];
         cordinate2 temp = hex2cart[temp_hex];
 
         update_board_score(temp.x, temp.y, temp.z);
