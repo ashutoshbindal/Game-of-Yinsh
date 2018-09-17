@@ -414,40 +414,6 @@ string player::get_move(){
                     vector<pair<int, int> > v_child = switch_marker_return(ring_self[i][0], ring_self[i][1], hex_pos.first, hex_pos.second);
                     v_child.push_back(pair<int, int>(ring_self[i][0], ring_self[i][1]));
                     for(int k=0; k<v_child.size(); k++){
-                        // cordinate2 temp_child = hex2cart[v_child[k]];
-                        // if(board_state1[temp_child.x][temp_child.y][temp_child.z] != -1){
-                        //     pair<vector<pair<cordinate2, cordinate2>>, vector<pair<cordinate2, cordinate2> > > temp_check = check_5(temp_child.x, temp_child.y, temp_child.z);
-                        //     //if there exist a 5 for the opponent, remove it from the list
-                        //     //if there exist a 5 for me, then execute_move
-                        //     vector<pair<cordinate2, cordinate2> > temp_check_opponent = temp_check.second;
-                        //     if(temp_check_opponent.size() > 0){
-                        //         v_child.erase(v_child.begin() + k );
-                        //         k--;
-                        //         continue;
-                        //     }
-                        //     vector<pair<cordinate2, cordinate2> > temp_check_self = temp_check.first;
-                        //     else if(temp_check_self.size() > 0){
-                        //         string temp_move = "S " + to_string(ring_self[i][0]) + " " + to_string(ring_self[i][1]) + " M " + to_string(hex_pos.first) + " " + to_string(hex_pos.second);
-                        //         cordinate2 cart_marker_start = temp_check_self[0].first;
-                        //         cordinate2 cart_marker_end = temp_check_self[0].second;
-                        //         pair<pair<int, int>, pair<int, int> > rem_marker_final = select_5(cart_marker_start, cart_marker_end);
-                        //         pair<int, int> hex_marker_start = rem_marker_final.first;
-                        //         pair<int, int> hex_marker_end = rem_marker_final.second;
-                        //         temp_move = temp_move + " RS " + to_string(hex_marker_start.first) + " " + to_string(hex_marker_start.second);
-                        //         temp_move = temp_move + " RE " + to_string(hex_marker_end.first) + " " + to_string(hex_marker_end.second);
-                        //
-                        //         //choosing the ring to remove_marker
-                        //         int select_ring;
-                        //         srand (time(NULL));
-                        //         select_ring = rand()%5;
-                        //         while (ring_self[select_ring][0] == -1 || ring_self[select_ring][1] == -1) {
-                        //             select_ring = rand()%5;
-                        //         }
-                        //         temp_move = temp_move + " X " + to_string(ring_self[select_ring][0]) + " " + to_string(ring_self[select_ring][1]);
-                        //
-                        //         return temp_move;
-                        //     }
-                        // }
                         string temp_string = marker_5(v_child[k], i, hex_pos);
                         if(temp_string == "-1"){
                             v_child.erase(v_child.begin() + k );
@@ -468,7 +434,29 @@ string player::get_move(){
                         }
                     }
 
+                    //no combination of 5 markers
                     //go one more layer into the children
+                    vector<cordinate2> pos_child = give_positions(temp_pos.x, temp_pos.y, temp_pos.z);
+                    for(int j_child= 0; j_child< pos_child.size(); j_child++){
+                        cordinate2 temp_pos_child = pos_child[j_child];
+                        pair<int, int> hex_pos_child = cart2hex[temp_pos_child.x][temp_pos_child.y][temp_pos_child.z];
+                        ring_update_self(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
+                        //marker update on the old ring position
+                        add_marker_self(hex_pos.first, hex_pos.second);
+                        vector<pair<int, int> > v_child_child = switch_marker_return(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
+                        v_child_child.push_back(pair<int, int>(hex_pos.first, hex_pos.second));
+                        for(int k= 0; k< v_child_child.size(); k++){
+                            string temp_string = marker_5(v_child[k], i, hex_pos);
+                            if(temp_string == "-1"){
+                                v_child.erase(v_child.begin() + k );
+                                k--;
+                                continue;
+                            }
+                            else if(temp_string != ""){
+                                return temp_string;
+                            }
+                        }
+                    }
 
 
                     //undo the children layer move
