@@ -11,6 +11,7 @@ void split(string, string, vector<string>&);
 
 class player{
 	public:
+		int move;
 		int number_ring_self;
 		int number_ring_opponent;
 		int ring_self[5][2];

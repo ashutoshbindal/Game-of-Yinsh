@@ -31,6 +31,7 @@ void split(string str, string splitBy, vector<string>& tokens)
 player::player(){
 	number_ring_self = 0;
 	number_ring_opponent = 0;
+    move = 0;
 
 	//Initialize for all the ring position to -1
 	for(int i=0; i<5; i++)
@@ -43,6 +44,9 @@ player::player(){
 }
 
 int player::eval_func(){
+
+    //write the code for the alpha-beta pruning
+     
     int s;
 	return s;
 }
@@ -78,6 +82,12 @@ void player::update_self(string move){
 			ring_remove_self(stoi(segment[13]), stoi(segment[14]));
 		}
 	}
+    else if(segment[0] == "RS"){
+        //remove the markers from RS to RE
+        remove_marker(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
+
+        ring_remove_self(stoi(segment[7]), stoi(segment[8]));
+    }
 	else {
 
 	}
@@ -114,6 +124,12 @@ void player::update_opponent(string move){
 			ring_remove_opponent(stoi(segment[13]), stoi(segment[14]));
 		}
 	}
+    else if(segment[0] == "RS"){
+        //remove the markers from RS to RE
+        remove_marker(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
+
+        ring_remove_opponent(stoi(segment[7]), stoi(segment[8]));
+    }
 	else{
 
 	}
@@ -305,7 +321,15 @@ void player::remove_marker(int hex1, int pos1, int hex2, int pos2){
 }
 
 string player::get_move(){
+    if(move<5){
+        //placing the ring strategy
+        move++;
+    }
+    else{
+        //use the eval_func to get the move
 
+        move++;
+    }
     //added just random code
     string temp = "none";
     return temp;
@@ -343,9 +367,15 @@ void player::undo_update_opponent(string move){
             ring_update_opponent(stoi(segment[4]), stoi(segment[5]), stoi(segment[1]), stoi(segment[2]));
 		}
 	}
-	else{
+	else if(segment[0] == "RS"){
+        ring_add_opponent(stoi(segment[7]), stoi(segment[8]));
 
+        //remove the markers from RS to RE
+        add_multiple_marker_opponent(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
 	}
+    else{
+
+    }
 }
 
 void player::undo_update_self(string move){
@@ -380,6 +410,12 @@ void player::undo_update_self(string move){
             ring_update_self(stoi(segment[4]), stoi(segment[5]), stoi(segment[1]), stoi(segment[2]));
 		}
 	}
+    else if(segment[0] == "RS"){
+        ring_add_self(stoi(segment[7]), stoi(segment[8]));
+
+        //remove the markers from RS to RE
+        add_multiple_marker_self(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
+    }
 	else {
 
 	}
