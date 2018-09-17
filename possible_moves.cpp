@@ -440,7 +440,7 @@ pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> 
 				start_opponent = {x, j, k};
 			}
 			else if(opponent_flag){
-				opponent_flag++;
+				val_opponent++;
 				end_opponent = {x, j, k};
 			}
 			else{
@@ -503,7 +503,7 @@ pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> 
 				start_opponent = {i, j, k};
 			}
 			else if(opponent_flag){
-				opponent_flag++;
+				val_opponent++;
 				end_opponent = {i, j, k};
 			}
 			else{
@@ -567,7 +567,7 @@ pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> 
 				start_opponent = {i, j, k};
 			}
 			else if(opponent_flag){
-				opponent_flag++;
+				val_opponent++;
 				end_opponent = {i, j, k};
 			}
 			else{
