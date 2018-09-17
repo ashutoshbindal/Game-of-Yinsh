@@ -1,5 +1,5 @@
-#ifndef POSSIBLE_MOVES
-#define	POSSIBLE_MOVES
+#ifndef POSSIBLE_MOVES_H
+#define	POSSIBLE_MOVES_H
 
 #include <iostream>
 #include <map>
@@ -34,3 +34,5 @@ int total_score();
 pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> > > check_5(int, int, int);
 
 pair<pair<int, int>, pair<int, int> > select_5(pair<cordinate2, cordinate2>);
+
+#endif
