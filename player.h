@@ -48,7 +48,7 @@ class player{
 
 		string marker_5(pair<int, int>);
 		int exist_ring(int, int);
-		int eval_func();
+		// int eval_func();
 		string get_move();
 };
 

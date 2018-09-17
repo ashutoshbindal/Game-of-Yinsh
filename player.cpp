@@ -45,13 +45,13 @@ player::player(){
 	}
 }
 
-int player::eval_func(){
-
-    //write the code for the alpha-beta pruning
-
-    int s;
-	return s;
-}
+// int player::eval_func(){
+//
+//     //write the code for the alpha-beta pruning
+//
+//     int s;
+// 	return s;
+// }
 
 void player::update_self(string move){
 	vector<string> segment;
@@ -203,6 +203,9 @@ void player::add_marker_self(int hex, int pos){
     // board_state[temp_marker.x][0].push_back(m1);
     // board_state[temp_marker.y][1].push_back(m2);
     // board_state[temp_marker.z][2].push_back(m3);
+
+    //update board score
+    update_board_score(temp_marker.x, temp_marker.y, temp_marker.z);
 }
 
 void player::add_marker_opponent(int hex, int pos){
@@ -217,6 +220,9 @@ void player::add_marker_opponent(int hex, int pos){
     // board_state[temp_marker.x][0].push_back(m1);
     // board_state[temp_marker.y][1].push_back(m2);
     // board_state[temp_marker.z][2].push_back(m3);
+
+    //update_board_score
+    update_board_score(temp_marker.x, temp_marker.y, temp_marker.z);
 }
 
 void player::switch_marker(int hex1, int pos1, int hex2, int pos2){
@@ -270,6 +276,16 @@ void player::switch_marker(int hex1, int pos1, int hex2, int pos2){
         //         break;
         //     }
         // }
+    }
+
+    //update board score
+    for(int i=0; i<mark.size(); i++){
+        pair<int. int> temp_hex = mark[i];
+        cordinate2 temp = hex2cart[temp_hex];
+
+        if(board_state1[temp.x][temp.y][temp.z] != -1){
+            update_board_score(temp.x, temp.y, temp.z);
+        }
     }
 }
 
@@ -325,6 +341,15 @@ vector<pair<int, int> > player::switch_marker_return(int hex1, int pos1, int hex
         //     }
         // }
     }
+    //update board score
+    for(int i=0; i<mark.size(); i++){
+        pair<int. int> temp_hex = mark[i];
+        cordinate2 temp = hex2cart[temp_hex];
+
+        if(board_state1[temp.x][temp.y][temp.z] != -1){
+            update_board_score(temp.x, temp.y, temp.z);
+        }
+    }
     return mark;
 }
 
@@ -375,6 +400,13 @@ void player::remove_marker(int hex1, int pos1, int hex2, int pos2){
         //     }
         // }
     }
+    //update board score
+    for(int i=0; i<mark.size(); i++){
+        pair<int. int> temp_hex = mark[i];
+        cordinate2 temp = hex2cart[temp_hex];
+
+        update_board_score(temp.x, temp.y, temp.z);
+    }
 }
 
 string player::get_move(){
@@ -400,8 +432,6 @@ string player::get_move(){
         return temp_move;
     }
     else{
-        //use the eval_func to get the move
-
         //min-max declaration
         int min_gchild;
         int max_child = INT_MIN;
@@ -663,6 +693,8 @@ void player::remove_single_marker(int hex, int pos){
     //         break;
     //     }
     // }
+
+    update_board_score(temp.x, temp.y, temp,z);
 }
 
 void player::ring_add_self(int hex, int pos){
@@ -703,6 +735,13 @@ void player::add_multiple_marker_self(int hex1, int pos1, int hex2, int pos2){
 
         board_state1[temp.x][temp.y][temp.z] = 1;
     }
+
+    for(int i=0; i<mark.size(); i++){
+        pair<int, int> temp_hex = mark[i];
+        cordinate2 temp = hex2cart[temp_hex];
+
+        update_board_score(temp.x, temp.y, temp.z);
+    }
 }
 
 void player::add_multiple_marker_opponent(int hex1, int pos1, int hex2, int pos2){
@@ -722,6 +761,13 @@ void player::add_multiple_marker_opponent(int hex1, int pos1, int hex2, int pos2
         cordinate2 temp = hex2cart[temp_hex];
 
         board_state1[temp.x][temp.y][temp.z] = 0;
+    }
+
+    for(int i=0; i<mark.size(); i++){
+        pair<int, int> temp_hex = mark[i];
+        cordinate2 temp = hex2cart[temp_hex];
+
+        update_board_score(temp.x, temp.y, temp.z);
     }
 }
 
