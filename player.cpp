@@ -430,10 +430,21 @@ string player::get_move(){
                                 string temp_move = "S " + to_string(ring_self[i][0]) + " " + to_string(ring_self[i][1]) + " M " + to_string(hex_pos.first) + " " + to_string(hex_pos.second);
                                 cordinate2 cart_marker_start = temp_check_self[0].first;
                                 cordinate2 cart_marker_end = temp_check_self[0].second;
-                                pair<int, int> rem_marker_start = cart2hex[cart_marker_start.x][cart_marker_start.y][cart_marker_start.z];
-                                pair<int, int> rem_marker_end = cart2hex[cart_marker_end.x][cart_marker_end.y][cart_marker_end.z];
-                                temp_move = temp_move + " RS " + to_string(rem_marker_start.first) + " " + to_string(rem_marker_start.second);
-                                temp_move = temp_move + " RE " + to_string(rem_marker_end.first) + " " + to_string(rem_marker_end.second);
+                                pair<pair<int, int>, pair<int, int> > rem_marker_final = select_5(cart_marker_start, cart_marker_end);
+                                pair<int, int> hex_marker_start = rem_marker_final.first;
+                                pair<int, int> hex_marker_end = rem_marker_final.second;
+                                temp_move = temp_move + " RS " + to_string(hex_marker_start.first) + " " + to_string(hex_marker_start.second);
+                                temp_move = temp_move + " RE " + to_string(hex_marker_end.first) + " " + to_string(hex_marker_end.second);
+
+                                //choosing the ring to remove_marker
+                                int select_ring;
+                                srand (time(NULL));
+                                select_ring = rand()%5;
+                                while (ring_self[select_ring][0] == -1 || ring_self[select_ring][1] == -1) {
+                                    select_ring = rand()%5;
+                                }
+                                temp_move = temp_move + " X " + to_string(ring_self[select_ring][0]) + " " + to_string(ring_self[select_ring][1]);
+
                                 return temp_move;
                             }
                         }
