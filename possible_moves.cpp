@@ -15,7 +15,7 @@ int board_state1[11][11][11];
 
 cordinate2 ring_bound[6];
 
-void possible_moves::place_bounds(){
+void place_bounds(){
 	int temp_x = {
 		{6,1,9,4},
 		{4,0,10,6},
@@ -64,7 +64,7 @@ void possible_moves::place_bounds(){
 // pair<int, int> cart2hex[11][11][11];
 // vector<marker> board_state[11][3];
 
-void possible_moves::bound_ring(int x, int y, int z){
+void bound_ring(int x, int y, int z){
 	ring_bound[0] = cordinate2 {x, bound_x[x][0], bound_x[x][1]};	//lower x
 	ring_bound[1] = cordinate2 {x, bound_x[x][2], bound_x[x][3]};	//upper x
 	ring_bound[2] = cordinate2 {bound_y[y][0], y, bound_y[y][1]};	//lower y
@@ -121,7 +121,7 @@ void possible_moves::bound_ring(int x, int y, int z){
 // 	return false;
 // }
 
-void possible_moves::bound_marker(int x, int y, int z){
+void bound_marker(int x, int y, int z){
 	int exist_x = 0, j= z;
 	bool flag= false;
 	for(int i= y-1; i>= ring_bound[0].y; i--){
@@ -178,7 +178,7 @@ void possible_moves::bound_marker(int x, int y, int z){
 	}
 }
 
-vector<cordinate2> possible_moves::give_positions(int x, int y, int z){
+vector<cordinate2> give_positions(int x, int y, int z){
 	bound_ring(x, y, z);
 	bound_marker(x, y, z);
 	vector<cordinate2> v;
@@ -202,7 +202,7 @@ vector<cordinate2> possible_moves::give_positions(int x, int y, int z){
 	return v;
 }
 
-void possible_moves::update_board_score(int x, int y, int z){
+void update_board_score(int x, int y, int z){
 	int j, k, val_opponent, val_mine, cnt, score_temp;
 	bool opponent_flag, mine_flag;
 	mine_flag = false;
@@ -365,7 +365,7 @@ void possible_moves::update_board_score(int x, int y, int z){
 	score[z][2] = score_temp;
 }
 
-int possible_moves::total_score(){
+int total_score(){
 	int val= 0;
 	for(int i= 0; i< 11; i++){
 		val+= score[i][0];
@@ -375,7 +375,7 @@ int possible_moves::total_score(){
 	return val;
 }
 
-pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> > > possible_moves::check_5(int x, int y, int z){
+pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> > > check_5(int x, int y, int z){
 	bool mine_flag= false, opponent_flag= false;
 	int i, j, k, val_mine, val_opponent, cnt= 0;
 	vector<pair<cordinate2, cordinate2> > v_mine;
@@ -575,7 +575,7 @@ pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> 
 	return p_return;
 }
 
-pair<pair<int, int>, pair<int, int> > possible_moves::select_5(pair<cordinate2, cordinate2> p){
+pair<pair<int, int>, pair<int, int> > select_5(pair<cordinate2, cordinate2> p){
 	pair<int, int> pos1 = cart2hex(p.first);
 	pair<int, int> pos2 = cart2hex(p.second);
 	vector<pair<int, int> > mid_places = places(pos1.first, pos1.second, pos2.first, pos2.second);

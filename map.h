@@ -28,10 +28,10 @@ extern pair<int, int> cart2hex[11][11][11];
 extern int board_state1[11][11][11];
 extern int score[11][3];
 
-vector<pair<int, int> > map::places(int, int, int, int);
+vector<pair<int, int> > places(int, int, int, int);
 
-void map::initialize();
-void map::initialize_score();
-void map::initialize_board_state1();
+void initialize();
+void initialize_score();
+void initialize_board_state1();
 
 #endif
