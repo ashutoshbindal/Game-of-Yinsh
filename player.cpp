@@ -10,6 +10,12 @@
 
 using namespace std;
 
+int move;
+int number_ring_self;
+int number_ring_opponent;
+int ring_self[5][2];
+int ring_opponent[5][2];
+
 //use it as: split(string, char_to_split, vector_string)
 void split(string str, string splitBy, vector<string>& tokens)
 {
@@ -30,7 +36,7 @@ void split(string str, string splitBy, vector<string>& tokens)
     }
 }
 
-player::player(){
+void initialize_player(){
 	number_ring_self = 0;
 	number_ring_opponent = 0;
     move = 0;
@@ -45,7 +51,7 @@ player::player(){
 	}
 }
 
-// int player::eval_func(){
+// int eval_func(){
 //
 //     //write the code for the alpha-beta pruning
 //
@@ -53,7 +59,7 @@ player::player(){
 // 	return s;
 // }
 
-void player::update_self(string move){
+void update_self(string move){
 	vector<string> segment;
 	split(move, " ", segment);
 
@@ -95,7 +101,7 @@ void player::update_self(string move){
 	}
 }
 
-void player::update_opponent(string move){
+void update_opponent(string move){
 	vector<string> segment;
 	split(move, " ", segment);
 
@@ -137,19 +143,19 @@ void player::update_opponent(string move){
 	}
 }
 
-void player::place_ring_self(int hex, int pos){
+void place_ring_self(int hex, int pos){
 	number_ring_self++;
 	ring_self[number_ring_self-1][0] = hex;
 	ring_self[number_ring_self-1][1] = pos;
 }
 
-void player::place_ring_opponent(int hex, int pos){
+void place_ring_opponent(int hex, int pos){
 	number_ring_opponent++;
 	ring_opponent[number_ring_opponent-1][0] = hex;
 	ring_opponent[number_ring_opponent-1][1] = pos;
 }
 
-void player::ring_update_self(int old_hex, int old_pos, int new_hex, int new_pos){
+void ring_update_self(int old_hex, int old_pos, int new_hex, int new_pos){
 	for(int i=0; i<5; i++){
 		if(ring_self[i][0] == old_hex && ring_self[i][1] == old_pos){
 			ring_self[i][0] = new_hex;
@@ -159,7 +165,7 @@ void player::ring_update_self(int old_hex, int old_pos, int new_hex, int new_pos
 	}
 }
 
-void player::ring_update_opponent(int old_hex, int old_pos, int new_hex, int new_pos){
+void ring_update_opponent(int old_hex, int old_pos, int new_hex, int new_pos){
 	for(int i=0; i<5; i++){
 		if(ring_opponent[i][0] == old_hex && ring_opponent[i][1] == old_pos){
 			ring_opponent[i][0] = new_hex;
@@ -169,7 +175,7 @@ void player::ring_update_opponent(int old_hex, int old_pos, int new_hex, int new
 	}
 }
 
-void player::ring_remove_self(int hex, int pos){
+void ring_remove_self(int hex, int pos){
 	for(int i=0; i<5; i++){
 		if(ring_self[i][0] == hex && ring_self[i][1] == pos){
 			ring_self[i][0] = -1;
@@ -180,7 +186,7 @@ void player::ring_remove_self(int hex, int pos){
 	}
 }
 
-void player::ring_remove_opponent(int hex, int pos){
+void ring_remove_opponent(int hex, int pos){
 	for(int i=0; i<5; i++){
 		if(ring_opponent[i][0] == hex && ring_opponent[i][1] == pos){
 			ring_opponent[i][0] = -1;
@@ -191,7 +197,7 @@ void player::ring_remove_opponent(int hex, int pos){
 	}
 }
 
-void player::add_marker_self(int hex, int pos){
+void add_marker_self(int hex, int pos){
 	marker_self.push_back(pair<int, int>(hex, pos));
 
     //adding the marker to board_state
@@ -208,7 +214,7 @@ void player::add_marker_self(int hex, int pos){
     update_board_score(temp_marker.x, temp_marker.y, temp_marker.z);
 }
 
-void player::add_marker_opponent(int hex, int pos){
+void add_marker_opponent(int hex, int pos){
 	marker_opponent.push_back(pair<int, int>(hex, pos));
 
     //adding the marker to board_state
@@ -225,7 +231,7 @@ void player::add_marker_opponent(int hex, int pos){
     update_board_score(temp_marker.x, temp_marker.y, temp_marker.z);
 }
 
-void player::switch_marker(int hex1, int pos1, int hex2, int pos2){
+void switch_marker(int hex1, int pos1, int hex2, int pos2){
     vector<pair<int, int> > mark = places(hex1, pos1, hex2, pos2);
 
     for(int i=0; i<mark.size(); i++)
@@ -289,7 +295,7 @@ void player::switch_marker(int hex1, int pos1, int hex2, int pos2){
     }
 }
 
-vector<pair<int, int> > player::switch_marker_return(int hex1, int pos1, int hex2, int pos2){
+vector<pair<int, int> > switch_marker_return(int hex1, int pos1, int hex2, int pos2){
     vector<pair<int, int> > mark = places(hex1, pos1, hex2, pos2);
 
     for(int i=0; i<mark.size(); i++)
@@ -353,7 +359,7 @@ vector<pair<int, int> > player::switch_marker_return(int hex1, int pos1, int hex
     return mark;
 }
 
-void player::remove_marker(int hex1, int pos1, int hex2, int pos2){
+void remove_marker(int hex1, int pos1, int hex2, int pos2){
     vector<pair<int, int> > mark = places(hex1, pos1, hex2, pos2);
 
     for(int i=0; i<mark.size(); i++)
@@ -409,7 +415,7 @@ void player::remove_marker(int hex1, int pos1, int hex2, int pos2){
     }
 }
 
-string player::get_move(){
+string get_move(){
     if(move<5){
         //placing the ring strategy: random ring strategy for now
         srand (time(NULL));
@@ -566,7 +572,7 @@ string player::get_move(){
     // return temp;
 }
 
-void player::undo_update_opponent(string move){
+void undo_update_opponent(string move){
     vector<string> segment;
 	split(move, " ", segment);
 
@@ -609,7 +615,7 @@ void player::undo_update_opponent(string move){
     }
 }
 
-void player::undo_update_self(string move){
+void undo_update_self(string move){
     vector<string> segment;
 	split(move, " ", segment);
 
@@ -652,7 +658,7 @@ void player::undo_update_self(string move){
 	}
 }
 
-void player::remove_single_marker(int hex, int pos){
+void remove_single_marker(int hex, int pos){
 
     pair<int, int> temp_marker {hex, pos};
     //removing from the original data structure of the board
@@ -697,7 +703,7 @@ void player::remove_single_marker(int hex, int pos){
     update_board_score(temp.x, temp.y, temp,z);
 }
 
-void player::ring_add_self(int hex, int pos){
+void ring_add_self(int hex, int pos){
     for(int i=0; i<5; i++){
         if(ring_self[i][0] == -1 && ring_self[i][1] == -1){
             ring_self[i][0] = hex;
@@ -707,7 +713,7 @@ void player::ring_add_self(int hex, int pos){
     }
 }
 
-void player::ring_add_opponent(int hex, int pos){
+void ring_add_opponent(int hex, int pos){
     for(int i=0; i<5; i++){
         if(ring_opponent[i][0] == -1 && ring_opponent[i][1] == -1){
             ring_opponent[i][0] = hex;
@@ -717,7 +723,7 @@ void player::ring_add_opponent(int hex, int pos){
     }
 }
 
-void player::add_multiple_marker_self(int hex1, int pos1, int hex2, int pos2){
+void add_multiple_marker_self(int hex1, int pos1, int hex2, int pos2){
     //write for both the type of datastrutures
     vector<pair<int, int> > mark = places(hex1, pos1, hex2, pos2);
 
@@ -744,7 +750,7 @@ void player::add_multiple_marker_self(int hex1, int pos1, int hex2, int pos2){
     }
 }
 
-void player::add_multiple_marker_opponent(int hex1, int pos1, int hex2, int pos2){
+void add_multiple_marker_opponent(int hex1, int pos1, int hex2, int pos2){
     //write for both the type of datastrutures
     vector<pair<int, int> > mark = places(hex1, pos1, hex2, pos2);
 
@@ -771,7 +777,7 @@ void player::add_multiple_marker_opponent(int hex1, int pos1, int hex2, int pos2
     }
 }
 
-int player::exist_ring(int hex, int pos){
+int exist_ring(int hex, int pos){
     //return -1: does not exist, 0:opponent, 1:my ring
     for(int i=0; i<5; i++)
     {
@@ -786,7 +792,7 @@ int player::exist_ring(int hex, int pos){
     return a;
 }
 
-string player::marker_5(pair<int, int> v, int i, pair<int, int> hex_pos){
+string marker_5(pair<int, int> v, int i, pair<int, int> hex_pos){
     cordinate2 temp_child = hex2cart[v];
     if(board_state1[temp_child.x][temp_child.y][temp_child.z] != -1){
         pair<vector<pair<cordinate2, cordinate2>>, vector<pair<cordinate2, cordinate2> > > temp_check = check_5(temp_child.x, temp_child.y, temp_child.z);
