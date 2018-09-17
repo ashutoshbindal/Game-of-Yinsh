@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <time.h>
+#include <limits.h>
 
 #include "player.h"
 #include "map.h"
@@ -400,6 +401,11 @@ string player::get_move(){
     }
     else{
         //use the eval_func to get the move
+
+        //min-max declaration
+        int min_gchild;
+        int max_child = INT_MIN;
+        pair<pair<int, int>, pair<int, int> > final_result;
         for(int i=0; i<5; i++){
             if(ring_self[i][0] != -1 && ring_self[i][1] != -1){
                 cordinate2 temp_ring = hex2cart[pair<int, int>(ring_self[i][0], ring_self[i][1])];
@@ -428,7 +434,9 @@ string player::get_move(){
                         }
                         else if(temp_string != ""){
                             //undo the move
-                            undo_update_self(temp_string);
+                            ring_update_self(hex_pos.first, hex_pos.second, ring_self[i][0], ring_self[i][1]);
+                            remove_single_marker(ring_self[i][0], ring_self[i][1]);
+                            switch_marker(ring_self[i][0], ring_self[i][1], hex_pos.first, hex_pos.second);
 
                             return temp_string;
                         }
@@ -436,38 +444,92 @@ string player::get_move(){
 
                     //no combination of 5 markers
                     //go one more layer into the children
-                    vector<cordinate2> pos_child = give_positions(temp_pos.x, temp_pos.y, temp_pos.z);
-                    for(int j_child= 0; j_child< pos_child.size(); j_child++){
-                        cordinate2 temp_pos_child = pos_child[j_child];
-                        pair<int, int> hex_pos_child = cart2hex[temp_pos_child.x][temp_pos_child.y][temp_pos_child.z];
-                        ring_update_self(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
-                        //marker update on the old ring position
-                        add_marker_self(hex_pos.first, hex_pos.second);
-                        vector<pair<int, int> > v_child_child = switch_marker_return(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
-                        v_child_child.push_back(pair<int, int>(hex_pos.first, hex_pos.second));
-                        for(int k= 0; k< v_child_child.size(); k++){
-                            string temp_string = marker_5(v_child[k], i, hex_pos);
-                            if(temp_string == "-1"){
-                                v_child.erase(v_child.begin() + k );
-                                k--;
-                                continue;
-                            }
-                            else if(temp_string != ""){
-                                return temp_string;
+
+                    //min initialize
+                    min_gchild = INT_MAX;
+
+                    for(int i_child=0; i_child<5; i_child++){
+                        if(ring_self[i_child][0] != -1 && ring_self[i_child][1] != -1){
+                            cordinate2 temp_ring_child = hex2cart[pair<int, int>(ring_self[i_child][0], ring_self[i_child][1])];
+
+                            vector<cordinate2> pos_child = give_positions(temp_ring_child.x, temp_ring_child.y, temp_ring_child.z);
+                            for(int j_child= 0; j_child< pos_child.size(); j_child++){
+                                cordinate2 temp_pos_child = pos_child[j_child];
+                                pair<int, int> hex_pos_child = cart2hex[temp_pos_child.x][temp_pos_child.y][temp_pos_child.z];
+                                ring_update_self(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
+                                //marker update on the old ring position
+                                add_marker_self(hex_pos.first, hex_pos.second);
+                                vector<pair<int, int> > v_child_child = switch_marker_return(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
+                                v_child_child.push_back(pair<int, int>(hex_pos.first, hex_pos.second));
+                                for(int k= 0; k< v_child_child.size(); k++){
+                                    string temp_string = marker_5(v_child[k], i, hex_pos);
+                                    if(temp_string == "-1"){
+                                        v_child.erase(v_child.begin() + k );
+                                        k--;
+
+                                        //undo the move
+                                        ring_update_self(hex_pos_child.first, hex_pos_child.second, hex_pos.first, hex_pos.second);
+                                        remove_single_marker(hex_pos.first, hex_pos.second));
+                                        switch_marker(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
+
+                                        //undo the parent
+                                        ring_update_self(hex_pos.first, hex_pos.second, ring_self[i][0], ring_self[i][1]);
+                                        remove_single_marker(ring_self[i][0], ring_self[i][1]);
+                                        switch_marker(ring_self[i][0], ring_self[i][1], hex_pos.first, hex_pos.second);
+                                        continue;
+                                    }
+                                    else if(temp_string != ""){
+                                        //undo the move
+                                        ring_update_self(hex_pos_child.first, hex_pos_child.second, hex_pos.first, hex_pos.second);
+                                        remove_single_marker(hex_pos.first, hex_pos.second));
+                                        switch_marker(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
+
+                                        //undo the parent
+                                        ring_update_self(hex_pos.first, hex_pos.second, ring_self[i][0], ring_self[i][1]);
+                                        remove_single_marker(ring_self[i][0], ring_self[i][1]);
+                                        switch_marker(ring_self[i][0], ring_self[i][1], hex_pos.first, hex_pos.second);
+
+                                        return temp_string;
+                                    }
+                                }
+
+                                //min score of all grandchildren
+                                if(total_score < min_gchild){
+                                    min_gchild = total_score;
+                                }
+
+                                //undo the children layer move
+                                //undo the move
+                                ring_update_self(hex_pos_child.first, hex_pos_child.second, hex_pos.first, hex_pos.second);
+                                remove_single_marker(hex_pos.first, hex_pos.second));
+                                switch_marker(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
                             }
                         }
                     }
 
-
-                    //undo the children layer move
+                    //max score of all children
+                    if(total_score > max_child){
+                        max_child = total_score;
+                        pair<int, int> final_start;
+                        final_start = {ring_self[i][0], ring_self[i][1]}
+                        final_result = {final_start, hex_pos};
+                    }
 
                     //undo the move
-
+                    ring_update_self(hex_pos.first, hex_pos.second, ring_self[i][0], ring_self[i][1]);
+                    remove_single_marker(ring_self[i][0], ring_self[i][1]);
+                    switch_marker(ring_self[i][0], ring_self[i][1], hex_pos.first, hex_pos.second);
                 }
+
+
             }
         }
-
+        //make string
+        string ans = "S " + to_string((final_result.first).first) + " " + to_string((final_result.first).second);
+        ans = ans + " M " + to_string((final_result.second).first) + " " + to_string((final_result.second).second);
         move++;
+
+        return ans;
     }
     //added just random code
     // string temp = "none";
