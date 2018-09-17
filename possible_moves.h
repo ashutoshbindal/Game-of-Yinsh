@@ -26,3 +26,11 @@ void bound_ring(int, int, int);
 void bound_marker(int, int, int);
 // bool exist_marker(int, int, int);
 vector<cordinate2> give_positions(int, int, int);
+
+void update_board_score(int, int, int);
+
+int total_score();
+
+pair<vector<pair<cordinate2, cordinate2>>, vector<pair<cordinate2, cordinate2> > > check_5(int, int, int);
+
+pair<pair<int, int>, pair<int, int> > select_5(pair<cordinate2, cordinate2>);

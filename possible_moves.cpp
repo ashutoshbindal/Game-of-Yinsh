@@ -580,7 +580,7 @@ pair<pair<int, int>, pair<int, int> > select_5(pair<cordinate2, cordinate2> p){
 	pair<int, int> pos2 = cart2hex(p.second);
 	vector<pair<int, int>> mid_places = places(pos1.first, pos1.second, pos2.first, pos2.second);
 	pair<pair<int, int>, pair<int, int> > p_return;
-	if(mid_places.size() != 3)	p2 = mid_places[3];
-	p_return = (p1, p2);
+	if(mid_places.size() != 3)	pos2 = mid_places[3];
+	p_return = (pos1, pos2);
 	return p_return;
 }
