@@ -44,6 +44,9 @@ class player{
 		void add_multiple_marker_self(int, int, int, int);
 		void add_multiple_marker_opponent(int, int, int, int);
 
+		vector<pair<int, int> > switch_marker_return(int, int, int, int);
+
+		int exist_ring(int, int);
 		int eval_func();
 		string get_move();
 };
