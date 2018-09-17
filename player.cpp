@@ -17,6 +17,9 @@ int number_ring_opponent;
 int ring_self[5][2];
 int ring_opponent[5][2];
 
+vector<pair<int, int> > marker_self;
+vector<pair<int, int> > marker_opponent;
+
 //use it as: split(string, char_to_split, vector_string)
 void split(string str, string splitBy, vector<string>& tokens)
 {

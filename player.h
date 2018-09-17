@@ -16,8 +16,8 @@ extern int number_ring_opponent;
 extern int ring_self[5][2];
 extern int ring_opponent[5][2];
 
-vector<pair<int, int> > marker_self;
-vector<pair<int, int> > marker_opponent;
+extern vector<pair<int, int> > marker_self;
+extern vector<pair<int, int> > marker_opponent;
 
 void initialize_player();
 
