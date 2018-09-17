@@ -11,7 +11,6 @@ using namespace std;
 int bound_x[11][4];
 int bound_y[11][4];
 int bound_z[11][4];
-int board_state1[11][11][11];
 
 cordinate2 ring_bound[6];
 
