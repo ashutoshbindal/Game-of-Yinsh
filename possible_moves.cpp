@@ -27,7 +27,7 @@ void place_bounds(){
 		{0,2,8,10},
 		{0,3,7,10},
 		{0,4,6,10},
-		{1,6,4,9},	
+		{1,6,4,9},
 	}
 	bound_x = temp_x;
 	int temp_y = {
@@ -55,7 +55,7 @@ void place_bounds(){
 		{2,10,10,2},
 		{3,10,10,3},
 		{4,10,10,4},
-		{6,9,9,6},	
+		{6,9,9,6},
 	}
 	bound_z = temp_z;
 }
@@ -64,7 +64,7 @@ void place_bounds(){
 // pair<int, int> cart2hex[11][11][11];
 // vector<marker> board_state[11][3];
 
-void bound_ring(int x, int y, int z){	
+void bound_ring(int x, int y, int z){
 	ring_bound[0] = cordinate2 {x, bound_x[x][0], bound_x[x][1]};	//lower x
 	ring_bound[1] = cordinate2 {x, bound_x[x][2], bound_x[x][3]};	//upper x
 	ring_bound[2] = cordinate2 {bound_y[y][0], y, bound_y[y][1]};	//lower y
@@ -75,10 +75,10 @@ void bound_ring(int x, int y, int z){
 	for(int P= 0; P< 2; P++){
 		for(int i= 0; i< 5; i++){
 			if (P== 0){
-				temp = hex2cart[pair<int, int>(ring_self[i][0], ring_self[i][1])];	
+				temp = hex2cart[pair<int, int>(ring_self[i][0], ring_self[i][1])];
 			}
 			else{
-				temp = hex2cart[pair<int, int>(ring_opponent[i][0], ring_opponent[i][1])];		
+				temp = hex2cart[pair<int, int>(ring_opponent[i][0], ring_opponent[i][1])];
 			}
 			if(temp.x == x){
 				//this ring lies on the same x
@@ -110,16 +110,16 @@ void bound_ring(int x, int y, int z){
 				}
 
 			}
-		}		
+		}
 	}
 }
 
-bool exist_marker(int x, int y, int z){
-	for(int i= 0; i< board_state[x].size(); i++){
-		if(board_state[x][i].x == y)	return true;
-	}
-	return false;
-}
+// bool exist_marker(int x, int y, int z){
+// 	for(int i= 0; i< board_state[x].size(); i++){
+// 		if(board_state[x][i].x == y)	return true;
+// 	}
+// 	return false;
+// }
 
 void bound_marker(int x, int y, int z){
 	int exist_x = 0, j= z;
