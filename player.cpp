@@ -3,6 +3,7 @@
 #include <vector>
 #include <time.h>
 #include <limits.h>
+#include <algorithm>
 
 #include "player.h"
 #include "map.h"
@@ -426,7 +427,7 @@ string get_move(){
         int z_cord = step + bound_x[x_cord][1];
 
         pair<int, int> temp_cord = cart2hex[x_cord][y_cord][z_cord];
-        while(exist_ring[temp.first][temp.second] != -1){
+        while(exist_ring(temp_cord.first, temp_cord.second) != -1){
             x_cord = rand()%11;
             step = rand()%(bound_x[x_cord][2] - bound_x[x_cord][0]);
             y_cord = step + bound_x[x_cord][0];
@@ -505,7 +506,7 @@ string get_move(){
 
                                         //undo the move
                                         ring_update_self(hex_pos_child.first, hex_pos_child.second, hex_pos.first, hex_pos.second);
-                                        remove_single_marker(hex_pos.first, hex_pos.second));
+                                        remove_single_marker(hex_pos.first, hex_pos.second);
                                         switch_marker(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
 
                                         //undo the parent
@@ -517,7 +518,7 @@ string get_move(){
                                     else if(temp_string != ""){
                                         //undo the move
                                         ring_update_self(hex_pos_child.first, hex_pos_child.second, hex_pos.first, hex_pos.second);
-                                        remove_single_marker(hex_pos.first, hex_pos.second));
+                                        remove_single_marker(hex_pos.first, hex_pos.second);
                                         switch_marker(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
 
                                         //undo the parent
@@ -530,24 +531,24 @@ string get_move(){
                                 }
 
                                 //min score of all grandchildren
-                                if(total_score < min_gchild){
-                                    min_gchild = total_score;
+                                if(total_score() < min_gchild){
+                                    min_gchild = total_score();
                                 }
 
                                 //undo the children layer move
                                 //undo the move
                                 ring_update_self(hex_pos_child.first, hex_pos_child.second, hex_pos.first, hex_pos.second);
-                                remove_single_marker(hex_pos.first, hex_pos.second));
+                                remove_single_marker(hex_pos.first, hex_pos.second);
                                 switch_marker(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
                             }
                         }
                     }
 
                     //max score of all children
-                    if(total_score > max_child){
-                        max_child = total_score;
+                    if(total_score() > max_child){
+                        max_child = total_score();
                         pair<int, int> final_start;
-                        final_start = {ring_self[i][0], ring_self[i][1]}
+                        final_start = {ring_self[i][0], ring_self[i][1]};
                         final_result = {final_start, hex_pos};
                     }
 
@@ -700,7 +701,7 @@ void remove_single_marker(int hex, int pos){
     //     }
     // }
 
-    update_board_score(temp.x, temp.y, temp,z);
+    update_board_score(temp.x, temp.y, temp.z);
 }
 
 void ring_add_self(int hex, int pos){
@@ -799,18 +800,18 @@ string marker_5(pair<int, int> v, int i, pair<int, int> hex_pos){
         //if there exist a 5 for the opponent, remove it from the list
         //if there exist a 5 for me, then execute_move
         vector<pair<cordinate2, cordinate2> > temp_check_opponent = temp_check.second;
+        vector<pair<cordinate2, cordinate2> > temp_check_self = temp_check.first;
         if(temp_check_opponent.size() > 0){
             // v_child.erase(v_child.begin() + k );
             return to_string(-1);
             // k--;
             // continue;
         }
-        vector<pair<cordinate2, cordinate2> > temp_check_self = temp_check.first;
         else if(temp_check_self.size() > 0){
             string temp_move = "S " + to_string(ring_self[i][0]) + " " + to_string(ring_self[i][1]) + " M " + to_string(hex_pos.first) + " " + to_string(hex_pos.second);
             cordinate2 cart_marker_start = temp_check_self[0].first;
             cordinate2 cart_marker_end = temp_check_self[0].second;
-            pair<pair<int, int>, pair<int, int> > rem_marker_final = select_5(cart_marker_start, cart_marker_end);
+            pair<pair<int, int>, pair<int, int> > rem_marker_final = select_5(pair<cordinate2, cordinate2> (cart_marker_start, cart_marker_end));
             pair<int, int> hex_marker_start = rem_marker_final.first;
             pair<int, int> hex_marker_end = rem_marker_final.second;
             temp_move = temp_move + " RS " + to_string(hex_marker_start.first) + " " + to_string(hex_marker_start.second);

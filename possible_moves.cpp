@@ -16,7 +16,7 @@ int board_state1[11][11][11];
 cordinate2 ring_bound[6];
 
 void place_bounds(){
-	int temp_x = {
+	int temp_x[11][4] = {
 		{6,1,9,4},
 		{4,0,10,6},
 		{3,0,10,7},
@@ -27,10 +27,12 @@ void place_bounds(){
 		{0,2,8,10},
 		{0,3,7,10},
 		{0,4,6,10},
-		{1,6,4,9},
+		{1,6,4,9}
+	};
+	for(int i= 0; i< 11; i++){
+		for(int j= 0; j< 4; j++)	bound_x[i][j] = temp_x[i][j];
 	}
-	bound_x = temp_x;
-	int temp_y = {
+	int temp_y[11][4] = {
 		{6,1,9,4},
 		{4,0,10,6},
 		{3,0,10,7},
@@ -41,10 +43,12 @@ void place_bounds(){
 		{0,2,8,10},
 		{0,3,7,10},
 		{0,4,6,10},
-		{1,6,4,9},
+		{1,6,4,9}
+	};
+	for(int i= 0; i< 11; i++){
+		for(int j= 0; j< 4; j++)	bound_y[i][j] = temp_y[i][j];
 	}
-	bound_y = temp_y;
-	int temp_z = {
+	int temp_z[11][4] = {
 		{1,4,4,1},
 		{0,6,6,0},
 		{0,7,7,0},
@@ -55,9 +59,11 @@ void place_bounds(){
 		{2,10,10,2},
 		{3,10,10,3},
 		{4,10,10,4},
-		{6,9,9,6},
+		{6,9,9,6}
+	};
+	for(int i= 0; i< 11; i++){
+		for(int j= 0; j< 4; j++)	bound_z[i][j] = temp_z[i][j];
 	}
-	bound_z = temp_z;
 }
 
 // map<pair<int, int>, cordinate2> hex2cart;
@@ -72,6 +78,7 @@ void bound_ring(int x, int y, int z){
 	ring_bound[4] = cordinate2 {bound_z[z][0], bound_z[z][1], z};	//lower z
 	ring_bound[5] = cordinate2 {bound_z[z][2], bound_z[z][3], z};	//upper z
 
+	cordinate2 temp;
 	for(int P= 0; P< 2; P++){
 		for(int i= 0; i< 5; i++){
 			if (P== 0){
@@ -185,19 +192,23 @@ vector<cordinate2> give_positions(int x, int y, int z){
 	int i, j, k;
 	i= x;
 	k = ring_bound[0].z-1;
+	cordinate2 temp_cor;
 	for(j= ring_bound[0].y; j<= ring_bound[1].y; j++){
 		k++;
-		if(j!= y && k!= z && board_state1[x][j][k]== -1)	v.push_back(x, j, k);
+		temp_cor = {x, j, k};
+		if(j!= y && k!= z && board_state1[x][j][k]== -1)	v.push_back(temp_cor);
 	}
 	k = ring_bound[2].z-1;
 	for(i= ring_bound[2].x; i<= ring_bound[3].x; j++){
 		k++;
-		if(i!= x && k!= z && board_state1[i][y][k]== -1)	v.push_back(i, y, k);
+		temp_cor = {i, y, k};
+		if(i!= x && k!= z && board_state1[i][y][k]== -1)	v.push_back(temp_cor);
 	}
 	i = ring_bound[4].x-1;
 	for(j= ring_bound[4].y; j<= ring_bound[5].y; j++){
 		i++;
-		if(i!= x && k!= z && board_state1[i][j][z]== -1)	v.push_back(i, j, z);
+		temp_cor = {i, j, z};
+		if(i!= x && k!= z && board_state1[i][j][z]== -1)	v.push_back(temp_cor);
 	}
 	return v;
 }
@@ -244,7 +255,7 @@ void update_board_score(int x, int y, int z){
 			}
 			else{
 				mine_flag = false;
-				opponent_flag
+				opponent_flag = true;
 				val_opponent++;
 			}
 		}
@@ -297,7 +308,7 @@ void update_board_score(int x, int y, int z){
 			}
 			else{
 				mine_flag = false;
-				opponent_flag
+				opponent_flag = true;
 				val_opponent++;
 			}
 		}
@@ -350,7 +361,7 @@ void update_board_score(int x, int y, int z){
 			}
 			else{
 				mine_flag = false;
-				opponent_flag
+				opponent_flag = true;
 				val_opponent++;
 			}
 		}
@@ -571,16 +582,16 @@ pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> 
 	if(val_opponent>= 5)	v_opponent.push_back(pair<cordinate2, cordinate2> (start_opponent, end_opponent));
 
 	pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> > > p_return;
-	p_return = (v_mine, v_opponent);
+	p_return = {v_mine, v_opponent};
 	return p_return;
 }
 
 pair<pair<int, int>, pair<int, int> > select_5(pair<cordinate2, cordinate2> p){
-	pair<int, int> pos1 = cart2hex(p.first);
-	pair<int, int> pos2 = cart2hex(p.second);
+	pair<int, int> pos1 = cart2hex[(p.first).x][(p.first).y][(p.first).z];
+	pair<int, int> pos2 = cart2hex[(p.second).x][(p.second).y][(p.second).z];
 	vector<pair<int, int> > mid_places = places(pos1.first, pos1.second, pos2.first, pos2.second);
 	pair<pair<int, int>, pair<int, int> > p_return;
 	if(mid_places.size() != 3)	pos2 = mid_places[3];
-	p_return = (pos1, pos2);
+	p_return = {pos1, pos2};
 	return p_return;
 }

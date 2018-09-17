@@ -45,7 +45,7 @@ void add_multiple_marker_opponent(int, int, int, int);
 
 vector<pair<int, int> > switch_marker_return(int, int, int, int);
 
-string marker_5(pair<int, int>);
+string marker_5(pair<int, int>, int, pair<int, int>);
 int exist_ring(int, int);
 // int eval_func();
 string get_move();
