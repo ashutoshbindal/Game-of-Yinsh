@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
             // cout<<move_string<<endl;
         	update_self(move_string);
             // cout<<"##########################"<<endl;
-            cout<<move_string;
+            cout<<move_string<<endl;
             getline(cin, move_string);
             update_opponent(move_string);
         }
@@ -43,8 +43,9 @@ int main(int argc, char** argv) {
     else if(player_id == 1) {
         while(true) {
         	move_string = get_move();
+        	// cout<<move_string<<endl
         	update_self(move_string);
-            cout<<move_string;
+            cout<<move_string<<endl;
             getline(cin, move_string);
             update_opponent(move_string);
         }
