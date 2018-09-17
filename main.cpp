@@ -9,37 +9,38 @@ using namespace std;
 int main(int argc, char** argv) {
 
     int player_id, board_size, time_limit;
-    string move;
+    string move_string;
 
     //initialize the conversion data structure in map.h
     initialize();
     place_bounds();
     initialize_score();
     initialize_board_state1();
+    initialize_player();
 
     // Get input from server about game specifications
     cin >> player_id >> board_size >> time_limit;
 
     if(player_id == 2) {
         // Get other player's move
-        cin>>move;
-        update_opponent(move);
+        cin>>move_string;
+        update_opponent(move_string);
 
         while(true) {
-        	move = get_move();
-        	update_self(move);
-            cout<<move<<endl;
-            cin>>move;
-            update_opponent(move);
+        	move_string = get_move();
+        	update_self(move_string);
+            cout<<move_string<<endl;
+            cin>>move_string;
+            update_opponent(move_string);
         }
     }
     else if(player_id == 1) {
         while(true) {
-        	move = get_move();
-        	update_self(move);
-            cout<<move<<endl;
-            cin>>move;
-            update_opponent(move);
+        	move_string = get_move();
+        	update_self(move_string);
+            cout<<move_string<<endl;
+            cin>>move_string;
+            update_opponent(move_string);
         }
     }
 

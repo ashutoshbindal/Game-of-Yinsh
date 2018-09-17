@@ -10,7 +10,7 @@
 
 using namespace std;
 
-int move;
+int move_num;
 int number_ring_self;
 int number_ring_opponent;
 int ring_self[5][2];
@@ -39,7 +39,7 @@ void split(string str, string splitBy, vector<string>& tokens)
 void initialize_player(){
 	number_ring_self = 0;
 	number_ring_opponent = 0;
-    move = 0;
+    move_num = 0;
 
 	//Initialize for all the ring position to -1
 	for(int i=0; i<5; i++)
@@ -416,7 +416,7 @@ void remove_marker(int hex1, int pos1, int hex2, int pos2){
 }
 
 string get_move(){
-    if(move<5){
+    if(move_num<5){
         //placing the ring strategy: random ring strategy for now
         srand (time(NULL));
         int x_cord = rand()%11;
@@ -434,7 +434,7 @@ string get_move(){
             temp_cord = cart2hex[x_cord][y_cord][z_cord];
         }
         string temp_move = "P " + to_string(temp_cord.first) + " " + to_string(temp_cord.second);
-        move++;
+        move_num++;
         return temp_move;
     }
     else{
@@ -563,7 +563,7 @@ string get_move(){
         //make string
         string ans = "S " + to_string((final_result.first).first) + " " + to_string((final_result.first).second);
         ans = ans + " M " + to_string((final_result.second).first) + " " + to_string((final_result.second).second);
-        move++;
+        move_num++;
 
         return ans;
     }

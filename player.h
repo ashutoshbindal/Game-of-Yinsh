@@ -10,7 +10,7 @@ using namespace std;
 void split(string, string, vector<string>&);
 
 
-extern int move;
+extern int move_num;
 extern int number_ring_self;
 extern int number_ring_opponent;
 extern int ring_self[5][2];
