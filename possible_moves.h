@@ -31,6 +31,6 @@ void update_board_score(int, int, int);
 
 int total_score();
 
-pair<vector<pair<cordinate2, cordinate2>>, vector<pair<cordinate2, cordinate2> > > check_5(int, int, int);
+pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> > > check_5(int, int, int);
 
 pair<pair<int, int>, pair<int, int> > select_5(pair<cordinate2, cordinate2>);

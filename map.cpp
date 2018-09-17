@@ -18,7 +18,7 @@ vector<pair<int, int> > places(int h1, int p1, int h2, int p2){
 	cordinate2 temp3, temp4;
 	temp3 = hex2cart[temp1];
 	temp4 = hex2cart[temp2];
-	vector<pair<int, int>> v;
+	vector<pair<int, int> > v;
 	pair<int, int> p;
 	int flag = 1, x_val, y_val, z_val;
 	if(temp3.x == temp4.x){

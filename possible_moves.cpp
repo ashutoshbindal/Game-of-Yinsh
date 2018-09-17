@@ -375,11 +375,11 @@ int total_score(){
 	return val;
 }
 
-pair<vector<pair<cordinate2, cordinate2>>, vector<pair<cordinate2, cordinate2> > > check_5(int x, int y, int z){
+pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> > > check_5(int x, int y, int z){
 	bool mine_flag= false, opponent_flag= false;
 	int i, j, k, val_mine, val_opponent, cnt= 0;
-	vector<pair<cordinate2, cordinate2>> v_mine;
-	vector<pair<cordinate2, cordinate2>> v_opponent;
+	vector<pair<cordinate2, cordinate2> > v_mine;
+	vector<pair<cordinate2, cordinate2> > v_opponent;
 
 	val_mine= 0;
 	val_opponent= 0;
@@ -570,7 +570,7 @@ pair<vector<pair<cordinate2, cordinate2>>, vector<pair<cordinate2, cordinate2> >
 	if(val_mine>= 5)	v_mine.push_back(pair<cordinate2, cordinate2> (start_mine, end_mine));
 	if(val_opponent>= 5)	v_opponent.push_back(pair<cordinate2, cordinate2> (start_opponent, end_opponent));
 
-	pair<vector<pair<cordinate2, cordinate2>>, vector<pair<cordinate2, cordinate2> > > p_return;
+	pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> > > p_return;
 	p_return = (v_mine, v_opponent);
 	return p_return;
 }
@@ -578,7 +578,7 @@ pair<vector<pair<cordinate2, cordinate2>>, vector<pair<cordinate2, cordinate2> >
 pair<pair<int, int>, pair<int, int> > select_5(pair<cordinate2, cordinate2> p){
 	pair<int, int> pos1 = cart2hex(p.first);
 	pair<int, int> pos2 = cart2hex(p.second);
-	vector<pair<int, int>> mid_places = places(pos1.first, pos1.second, pos2.first, pos2.second);
+	vector<pair<int, int> > mid_places = places(pos1.first, pos1.second, pos2.first, pos2.second);
 	pair<pair<int, int>, pair<int, int> > p_return;
 	if(mid_places.size() != 3)	pos2 = mid_places[3];
 	p_return = (pos1, pos2);
