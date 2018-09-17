@@ -66,10 +66,11 @@ void initialize_player(){
 void update_self(string move){
 	vector<string> segment;
 	split(move, " ", segment);
-
+    // cout<<"moves::"<<segment[0]<<endl;
 	if (segment[0] == "P"){
 		//Place your ring
 		place_ring_self(stoi(segment[1]), stoi(segment[2]));
+        // cout<<"out"<<endl;
 	}
 	else if (segment[0] == "S"){
 		if(segment.size() == 6){

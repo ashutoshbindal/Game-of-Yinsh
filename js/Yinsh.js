@@ -492,7 +492,6 @@ function RemoveRow(x, y, state=4){
     if(x == null || y == null){
         return false;
     }
-
 	var row_count=0;
 	var select_row=-1;
 	for(var i=0;i<player[current_player].five_row.length;i++){
@@ -518,7 +517,6 @@ function RemoveRowEnd(startX, startY, endX, endY, state=4){
     if(startX == null || startY == null){
         return false;
     }
-
 	var row_count=0;
 	var select_row=-1;
 	for(var i=0;i<player[current_player].five_row.length;i++){
@@ -535,8 +533,7 @@ function RemoveRowEnd(startX, startY, endX, endY, state=4){
          
         }
 	}
-
-	if(row_count==1){
+	if(row_count>=1){
         var removeList = new Array();
         removeList.push(select_row);
 
@@ -555,20 +552,14 @@ function RemoveRowEnd(startX, startY, endX, endY, state=4){
 					if(player[current_player].five_row[i][j][0]==player[current_player].five_row[select_row][k][0]
 						&&player[current_player].five_row[i][j][1]==player[current_player].five_row[select_row][k][1]){
                             removeList.push(i);
-							//player[current_player].five_row.splice(i,1);
 					}
 				}
 			}
 		}
-
-        var sortRemList = removeList.sort(); // sorts in ascending order
-        for(i=removeList.length; i>=0; i--){
-            player[current_player].five_row.splice(sortRemList[i], 1)
-        }
-		//player[current_player].five_row.splice(select_row,1);
+        player[current_player].five_row.length = 0
+		CheckRows();
 		required_move=state;
-
-		HighlightRow();
+		guide_ctx.clearRect(0, 0, guide_canvas.width, guide_canvas.height);
         return true
 	} else {
         return false
@@ -605,8 +596,7 @@ function RemoveRing(xcoord,ycoord,state=4){
 			}
 		}
 		else{
-			required_move=3;
-				HighlightRow();
+			HighlightRow();
 		}
         return true
 	} else {
