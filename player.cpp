@@ -452,9 +452,18 @@ string player::get_move(){
                         if(temp_string == "-1"){
                             v_child.erase(v_child.begin() + k );
                             k--;
+
+                            //undo the move
+                            ring_update_self(hex_pos.first, hex_pos.second, ring_self[i][0], ring_self[i][1]);
+                            remove_single_marker(ring_self[i][0], ring_self[i][1]);
+                            switch_marker(ring_self[i][0], ring_self[i][1], hex_pos.first, hex_pos.second);
+
                             continue;
                         }
                         else if(temp_string != ""){
+                            //undo the move
+                            undo_update_self(temp_string);
+
                             return temp_string;
                         }
                     }
@@ -465,6 +474,7 @@ string player::get_move(){
                     //undo the children layer move
 
                     //undo the move
+
                 }
             }
         }
