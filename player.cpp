@@ -505,13 +505,14 @@ string get_move(){
                     // cout<<"######"<<endl;
                     //switch the color of the markers in between
                     vector<pair<int, int> > v_child = switch_marker_return(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
+                    v_child.push_back(pair<int, int>(parent_temp_ring_hex.first, parent_temp_ring_hex.second));
 
                     // //update board score
                     cordinate2 temp_parent_temp_ring_hex = hex2cart[parent_temp_ring_hex];
                     update_board_score(temp_parent_temp_ring_hex.x, temp_parent_temp_ring_hex.y, temp_parent_temp_ring_hex.z);
                     update_multiple_board_score(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
 
-                    v_child.push_back(pair<int, int>(parent_temp_ring_hex.first, parent_temp_ring_hex.second));
+
 
                     bool flag_continue = false;
                     for(int k=0; k<v_child.size(); k++){
@@ -577,14 +578,15 @@ string get_move(){
                                 // pair<int, int>
                                 add_marker_opponent(hex_temp_ring_child.first, hex_temp_ring_child.second);
                                 vector<pair<int, int> > v_child_child = switch_marker_return(hex_temp_ring_child.first, hex_temp_ring_child.second, hex_pos_child.first, hex_pos_child.second);
-
+                                v_child_child.push_back(pair<int, int>(hex_temp_ring_child.first, hex_temp_ring_child.second));
+                                
                                 //update board score
                                 cordinate2 temp_hex_temp_ring_child = hex2cart[hex_temp_ring_child];
                                 update_board_score(temp_hex_temp_ring_child.x, temp_hex_temp_ring_child.y, temp_hex_temp_ring_child.z);
 
                                 update_multiple_board_score(hex_temp_ring_child.first, hex_temp_ring_child.second, hex_pos_child.first, hex_pos_child.second);
 
-                                v_child_child.push_back(pair<int, int>(hex_temp_ring_child.first, hex_temp_ring_child.second));
+
 
                                 bool flag_continue_child = false;
                                 for(int k= 0; k< v_child_child.size(); k++){
