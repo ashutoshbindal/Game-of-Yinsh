@@ -620,6 +620,7 @@ string get_move(){
 
                             vector<cordinate2> pos_child = give_positions(temp_ring_child.x, temp_ring_child.y, temp_ring_child.z);
                             for(int j_child= 0; j_child< pos_child.size(); j_child++){
+                                // cout<<"possible::"<<pos_child[j_child].x<<"@"<<pos_child[j_child].y<<"@"<<pos_child[j_child].z<<endl;
                                 cordinate2 temp_pos_child = pos_child[j_child];
                                 pair<int, int> hex_pos_child = cart2hex[temp_pos_child.x][temp_pos_child.y][temp_pos_child.z];
                                 ring_update_opponent(ring_opponent[i_child][0], ring_opponent[i_child][1], hex_pos_child.first, hex_pos_child.second);
@@ -628,7 +629,7 @@ string get_move(){
                                 add_marker_opponent(hex_temp_ring_child.first, hex_temp_ring_child.second);
                                 vector<pair<int, int> > v_child_child = switch_marker_return(hex_temp_ring_child.first, hex_temp_ring_child.second, hex_pos_child.first, hex_pos_child.second);
                                 v_child_child.push_back(pair<int, int>(hex_temp_ring_child.first, hex_temp_ring_child.second));
-                                
+
                                 //update board score
                                 cordinate2 temp_hex_temp_ring_child = hex2cart[hex_temp_ring_child];
                                 update_board_score(temp_hex_temp_ring_child.x, temp_hex_temp_ring_child.y, temp_hex_temp_ring_child.z);
