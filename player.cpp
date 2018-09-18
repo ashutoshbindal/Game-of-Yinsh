@@ -506,20 +506,24 @@ string get_move(){
                     //min initialize
                     min_gchild = INT_MAX;
                     // cout<<"inside minimax"<<endl;
+                    bool flag_parent_parent_skip= false;
                     for(int i_child=0; i_child<5; i_child++){
-                        if(ring_self[i_child][0] != -1 && ring_self[i_child][1] != -1){
-                            cordinate2 temp_ring_child = hex2cart[pair<int, int>(ring_self[i_child][0], ring_self[i_child][1])];
+                        bool flag_parent_skip = false;
+                        if(ring_opponent[i_child][0] != -1 && ring_opponent[i_child][1] != -1){
+                            pair<int, int> hex_temp_ring_child;
+                            hex_temp_ring_child = {ring_opponent[i_child][0], ring_opponent[i_child][1]};
+                            cordinate2 temp_ring_child = hex2cart[pair<int, int>(ring_opponent[i_child][0], ring_opponent[i_child][1])];
 
                             vector<cordinate2> pos_child = give_positions(temp_ring_child.x, temp_ring_child.y, temp_ring_child.z);
                             for(int j_child= 0; j_child< pos_child.size(); j_child++){
                                 cordinate2 temp_pos_child = pos_child[j_child];
                                 pair<int, int> hex_pos_child = cart2hex[temp_pos_child.x][temp_pos_child.y][temp_pos_child.z];
-                                ring_update_self(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
+                                ring_update_opponent(ring_opponent[i_child][0], ring_opponent[i_child][1], hex_pos_child.first, hex_pos_child.second);
                                 //marker update on the old ring position
                                 // pair<int, int>
-                                add_marker_self(hex_pos.first, hex_pos.second);
-                                vector<pair<int, int> > v_child_child = switch_marker_return(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
-                                v_child_child.push_back(pair<int, int>(hex_pos.first, hex_pos.second));
+                                add_marker_opponent(hex_temp_ring_child.first, hex_temp_ring_child.second);
+                                vector<pair<int, int> > v_child_child = switch_marker_return(hex_temp_ring_child.first, hex_temp_ring_child.second, hex_pos_child.first, hex_pos_child.second);
+                                v_child_child.push_back(pair<int, int>(hex_temp_ring_child.first, hex_temp_ring_child.second));
 
                                 bool flag_continue_child = false;
                                 for(int k= 0; k< v_child_child.size(); k++){
@@ -529,23 +533,23 @@ string get_move(){
                                         k--;
 
                                         //undo the move
-                                        ring_update_self(hex_pos_child.first, hex_pos_child.second, hex_pos.first, hex_pos.second);
-                                        remove_single_marker(hex_pos.first, hex_pos.second);
-                                        switch_marker(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
+                                        ring_update_opponent(hex_pos_child.first, hex_pos_child.second, hex_temp_ring_child.first, hex_temp_ring_child.second);
+                                        remove_single_marker(hex_temp_ring_child.first, hex_temp_ring_child.second);
+                                        switch_marker(hex_temp_ring_child.first, hex_temp_ring_child.second, hex_pos_child.first, hex_pos_child.second);
 
                                         //undo the parent
-                                        // ring_update_self(hex_pos.first, hex_pos.second, parent_temp_ring_hex.first, parent_temp_ring_hex.second);
-                                        // remove_single_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second);
-                                        // switch_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
+                                        ring_update_self(hex_pos.first, hex_pos.second, parent_temp_ring_hex.first, parent_temp_ring_hex.second);
+                                        remove_single_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second);
+                                        switch_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
                                         flag_continue_child = true;
 
                                         break;
                                     }
                                     else if(temp_string != ""){
                                         //undo the move
-                                        ring_update_self(hex_pos_child.first, hex_pos_child.second, hex_pos.first, hex_pos.second);
-                                        remove_single_marker(hex_pos.first, hex_pos.second);
-                                        switch_marker(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
+                                        ring_update_opponent(hex_pos_child.first, hex_pos_child.second, hex_temp_ring_child.first, hex_temp_ring_child.second);
+                                        remove_single_marker(hex_temp_ring_child.first, hex_temp_ring_child.second);
+                                        switch_marker(hex_temp_ring_child.first, hex_temp_ring_child.second, hex_pos_child.first, hex_pos_child.second);
 
                                         //undo the parent
                                         ring_update_self(hex_pos.first, hex_pos.second, parent_temp_ring_hex.first, parent_temp_ring_hex.second);
@@ -557,7 +561,8 @@ string get_move(){
                                 }
 
                                 if(flag_continue_child){
-                                    continue;
+                                    flag_parent_skip = true;
+                                    break;
                                 }
                                 //min score of all grandchildren
                                 if(total_score() < min_gchild){
@@ -566,14 +571,19 @@ string get_move(){
 
                                 //undo the children layer move
                                 //undo the move
-                                ring_update_self(hex_pos_child.first, hex_pos_child.second, hex_pos.first, hex_pos.second);
-                                remove_single_marker(hex_pos.first, hex_pos.second);
-                                switch_marker(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
+                                ring_update_opponent(hex_pos_child.first, hex_pos_child.second, hex_temp_ring_child.first, hex_temp_ring_child.second);
+                                remove_single_marker(hex_temp_ring_child.first, hex_temp_ring_child.second);
+                                switch_marker(hex_temp_ring_child.first, hex_temp_ring_child.second, hex_pos_child.first, hex_pos_child.second);
+                            }
+                            if(flag_parent_skip){
+                                flag_parent_parent_skip = true;
+                                break;
                             }
                         }
                     }
 
                     //max score of all children
+                    if(flag_parent_parent_skip) continue;
                     if(min_gchild > max_child){
                         max_child = min_gchild;
                         pair<int, int> final_start;
