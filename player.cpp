@@ -5,6 +5,10 @@
 #include <limits.h>
 #include <algorithm>
 
+
+#include <chrono>
+#include <thread>
+
 #include "player.h"
 #include "map.h"
 #include "possible_moves.h"
@@ -587,6 +591,7 @@ string get_move(){
                     //max score of all children
                     if(flag_parent_parent_skip) continue;
                     if(min_gchild > max_child){
+						this_thread::sleep_for(chrono::milliseconds(5000));
                         max_child = min_gchild;
                         pair<int, int> final_start;
                         final_start = {parent_temp_ring_hex.first, parent_temp_ring_hex.second};
