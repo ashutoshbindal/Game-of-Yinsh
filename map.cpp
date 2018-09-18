@@ -29,11 +29,7 @@ vector<pair<int, int> > places(int h1, int p1, int h2, int p2){
 				y_val = temp4.y + (i+1);
 				z_val = temp4.z + (i+1);
 				p = cart2hex[x_val][y_val][z_val];
-				if(flag == 1){
-					v.insert(v.begin(), p);
-					flag = 0;
-				}
-				else v.push_back(p);
+				v.push_back(p);
 			}
 		}
 		if(y< -1){
@@ -42,8 +38,7 @@ vector<pair<int, int> > places(int h1, int p1, int h2, int p2){
 				y_val = temp3.y + (i+1);
 				z_val = temp3.z + (i+1);
 				p = cart2hex[x_val][y_val][z_val];
-				if(flag == 1) v.insert(v.begin(), p);
-				else v.push_back(p);
+				v.push_back(p);
 			}
 		}
 	}
@@ -55,8 +50,7 @@ vector<pair<int, int> > places(int h1, int p1, int h2, int p2){
 				y_val = temp4.y;
 				z_val = temp4.z + (i+1);
 				p = cart2hex[x_val][y_val][z_val];
-				if(flag == 1) v.insert(v.begin(), p);
-				else v.push_back(p);
+				v.push_back(p);
 			}
 		}
 		if(y< -1){
@@ -65,11 +59,7 @@ vector<pair<int, int> > places(int h1, int p1, int h2, int p2){
 				y_val = temp3.y;
 				z_val = temp3.z + (i+1);
 				p = cart2hex[x_val][y_val][z_val];
-				if(flag == 1){
-					v.insert(v.begin(), p);
-					flag = 0;
-				}
-				else v.push_back(p);
+				v.push_back(p);
 			}
 		}
 	}
@@ -78,24 +68,19 @@ vector<pair<int, int> > places(int h1, int p1, int h2, int p2){
 		if(y> 1){
 			for(int i= 0; i< y-1; i++){
 				x_val = temp4.x + (i+1);
-				y_val = temp4.y + (i+1);
+				y_val = temp4.y - (i+1);
 				z_val = temp4.z;
 				p = cart2hex[x_val][y_val][z_val];
-				if(flag == 1) v.insert(v.begin(), p);
-				else v.push_back(p);
+				v.push_back(p);
 			}
 		}
 		if(y< -1){
 			for(int i= 0; i< y-1; i++){
 				x_val = temp3.x + (i+1);
-				y_val = temp3.y + (i+1);
+				y_val = temp3.y - (i+1);
 				z_val = temp3.z;
 				p = cart2hex[x_val][y_val][z_val];
-				if(flag == 1){
-					v.insert(v.begin(), p);
-					flag = 0;
-				}
-				else v.push_back(p);
+				v.push_back(p);
 			}
 		}
 	}
