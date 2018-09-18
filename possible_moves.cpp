@@ -108,11 +108,11 @@ void bound_ring(int x, int y, int z){
 			}
 			else if(temp.z == z){
 				//this ring lies on the same z
-				if(temp.z < z && ring_bound[4].y<= temp.y){
+				if(temp.y < y && ring_bound[4].y<= temp.y){
 					ring_bound[4] = cordinate2 {temp.x+1, temp.y+1, z};
 				}
-				if(temp.z > z && ring_bound[1].y>= temp.y){
-					ring_bound[5] = cordinate2 {temp.x, temp.y-1, z};
+				if(temp.y > y && ring_bound[5].y>= temp.y){
+					ring_bound[5] = cordinate2 {temp.x-1, temp.y-1, z};
 				}
 
 			}
@@ -133,8 +133,9 @@ void bound_marker(int x, int y, int z){
 	for(int i= y-1; i>= ring_bound[0].y; i--){
 		j--;
 		if(exist_x == 0 && board_state1[x][i][j]>= 0)	exist_x = 1;
-		if(exist_x == 1 && board_state1[x][i][j]>= 0){
+		if(exist_x == 1 && board_state1[x][i][j]== -1){
 			ring_bound[0] = cordinate2 {x, i, j};
+			break;
 		}
 	}
 	exist_x = 0;
@@ -142,8 +143,9 @@ void bound_marker(int x, int y, int z){
 	for(int i= y+1; i<= ring_bound[1].y; i++){
 		j++;
 		if(exist_x == 0 && board_state1[x][i][j]>= 0)	exist_x = 1;
-		if(exist_x == 1 && board_state1[x][i][j]>= 0){
+		if(exist_x == 1 && board_state1[x][i][j]== -1){
 			ring_bound[1] = cordinate2 {x, i, j};
+			break;
 		}
 	}
 	exist_x = 0;
@@ -151,8 +153,9 @@ void bound_marker(int x, int y, int z){
 	for(int i= x-1; i>= ring_bound[2].x; i--){
 		j--;
 		if(exist_x == 0 && board_state1[i][y][j]>= 0)	exist_x = 1;
-		if(exist_x == 1 && board_state1[i][y][j]>= 0){
+		if(exist_x == 1 && board_state1[i][y][j]== -1){
 			ring_bound[2] = cordinate2 {i, y, j};
+			break;
 		}
 	}
 	exist_x = 0;
@@ -160,8 +163,9 @@ void bound_marker(int x, int y, int z){
 	for(int i= x+1; i<= ring_bound[3].x; i++){
 		j++;
 		if(exist_x == 0 && board_state1[i][y][j]>= 0)	exist_x = 1;
-		if(exist_x == 1 && board_state1[i][y][j]>= 0){
+		if(exist_x == 1 && board_state1[i][y][j]== -1){
 			ring_bound[3] = cordinate2 {i, y, j};
+			break;
 		}
 	}
 	exist_x = 0;
@@ -169,8 +173,9 @@ void bound_marker(int x, int y, int z){
 	for(int i= x-1; i>= ring_bound[4].x; i--){
 		j--;
 		if(exist_x == 0 && board_state1[i][j][z]>= 0)	exist_x = 1;
-		if(exist_x == 1 && board_state1[i][j][z]>= 0){
+		if(exist_x == 1 && board_state1[i][j][z]== -1){
 			ring_bound[4] = cordinate2 {i, j, z};
+			break;
 		}
 	}
 	exist_x = 0;
@@ -178,8 +183,9 @@ void bound_marker(int x, int y, int z){
 	for(int i= x+1; i<= ring_bound[5].x; i++){
 		j++;
 		if(exist_x == 0 && board_state1[i][j][z]>= 0)	exist_x = 1;
-		if(exist_x == 1 && board_state1[i][j][z]>= 0){
+		if(exist_x == 1 && board_state1[i][j][z]== -1){
 			ring_bound[5] = cordinate2 {i, j, z};
+			break;
 		}
 	}
 }
