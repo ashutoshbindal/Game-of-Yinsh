@@ -520,6 +520,8 @@ string get_move(){
                                 add_marker_self(hex_pos.first, hex_pos.second);
                                 vector<pair<int, int> > v_child_child = switch_marker_return(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
                                 v_child_child.push_back(pair<int, int>(hex_pos.first, hex_pos.second));
+
+                                bool flag_continue_child = false;
                                 for(int k= 0; k< v_child_child.size(); k++){
                                     string temp_string = marker_5(v_child[k], i, hex_pos);
                                     if(temp_string == "-1"){
@@ -532,10 +534,12 @@ string get_move(){
                                         switch_marker(hex_pos.first, hex_pos.second, hex_pos_child.first, hex_pos_child.second);
 
                                         //undo the parent
-                                        ring_update_self(hex_pos.first, hex_pos.second, parent_temp_ring_hex.first, parent_temp_ring_hex.second);
-                                        remove_single_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second);
-                                        switch_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
-                                        continue;
+                                        // ring_update_self(hex_pos.first, hex_pos.second, parent_temp_ring_hex.first, parent_temp_ring_hex.second);
+                                        // remove_single_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second);
+                                        // switch_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
+                                        flag_continue_child = true;
+
+                                        break;
                                     }
                                     else if(temp_string != ""){
                                         //undo the move
@@ -552,6 +556,9 @@ string get_move(){
                                     }
                                 }
 
+                                if(flag_continue_child){
+                                    continue;
+                                }
                                 //min score of all grandchildren
                                 if(total_score() < min_gchild){
                                     min_gchild = total_score();
