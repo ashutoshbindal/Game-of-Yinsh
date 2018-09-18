@@ -80,10 +80,17 @@ void bound_ring(int x, int y, int z){
 	cordinate2 temp;
 	for(int P= 0; P< 2; P++){
 		for(int i= 0; i< 5; i++){
+
 			if (P== 0){
+				if(ring_self[i][0] == -1 || ring_self[i][1] == -1){
+					continue;
+				}
 				temp = hex2cart[pair<int, int>(ring_self[i][0], ring_self[i][1])];
 			}
 			else{
+				if(ring_opponent[i][0] == -1 || ring_opponent[i][1] == -1){
+					continue;
+				}
 				temp = hex2cart[pair<int, int>(ring_opponent[i][0], ring_opponent[i][1])];
 			}
 			if(temp.x == x){
@@ -198,7 +205,7 @@ vector<cordinate2> give_positions(int x, int y, int z){
 	vector<cordinate2> v;
 	int i, j, k;
 	i= x;
-	k = ring_bound[0].z-1;
+	k = ring_bound[0].z - 1;
 	// cout<<"##"<<i<<"@@"<<k<<endl;
 	cordinate2 temp_cor;
 	for(j= ring_bound[0].y; j<= ring_bound[1].y; j++){
@@ -206,13 +213,15 @@ vector<cordinate2> give_positions(int x, int y, int z){
 		temp_cor = {x, j, k};
 		if(j!= y && k!= z && board_state1[x][j][k]== -1)	v.push_back(temp_cor);
 	}
-	k = ring_bound[2].z-1;
-	for(i= ring_bound[2].x; i<= ring_bound[3].x; j++){
+	k = ring_bound[2].z - 1;
+	// cout<<"##"<<i<<"@@"<<k<<endl;
+	for(i= ring_bound[2].x; i<= ring_bound[3].x; i++){
 		k++;
 		temp_cor = {i, y, k};
 		if(i!= x && k!= z && board_state1[i][y][k]== -1)	v.push_back(temp_cor);
 	}
-	i = ring_bound[4].x-1;
+	i = ring_bound[4].x - 1;
+	// cout<<"##"<<i<<"@@"<<k<<endl;
 	for(j= ring_bound[4].y; j<= ring_bound[5].y; j++){
 		i++;
 		temp_cor = {i, j, z};
