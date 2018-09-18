@@ -451,6 +451,8 @@ string get_move(){
         for(int i=0; i<5; i++){
             if(ring_self[i][0] != -1 && ring_self[i][1] != -1){
                 // cout<<"inside minimax"<<i;
+                pair<int, int> parent_temp_ring_hex;
+                parent_temp_ring_hex = {ring_self[i][0], ring_self[i][1]};
                 cordinate2 temp_ring = hex2cart[pair<int, int>(ring_self[i][0], ring_self[i][1])];
                 // cout<<"ring::"<<ring_self[i][0]<<ring_self[i][1]<<"@"<<temp_ring.x<<"#"<<temp_ring.y<<"#"<<temp_ring.z<<endl;
                 vector<cordinate2> pos = give_positions(temp_ring.x, temp_ring.y, temp_ring.z);
@@ -461,7 +463,7 @@ string get_move(){
                     // cout<<hex_pos.first<<" "<<hex_po
                     ring_update_self(ring_self[i][0], ring_self[i][1], hex_pos.first, hex_pos.second);
         			//marker update on the old ring position
-                    pair<int, int> parent_temp_ring_hex = cart2hex[temp_ring.x][temp_ring.y][temp_ring.z];
+                    // pair<int, int> parent_temp_ring_hex = cart2hex[temp_ring.x][temp_ring.y][temp_ring.z];
         			add_marker_self(parent_temp_ring_hex.first, parent_temp_ring_hex.second);
                     // cout<<"######"<<endl;
                     //switch the color of the markers in between
@@ -474,8 +476,8 @@ string get_move(){
                         string temp_string = marker_5(v_child[k], i, hex_pos);
                         // cout<<"ans::::::"<<temp_string<<"##"<<endl;
                         if(temp_string == "-1"){
-                            v_child.erase(v_child.begin() + k );
-                            k--;
+                            // v_child.erase(v_child.begin() + k );
+                            // k--;
 
                             //undo the move
                             ring_update_self(hex_pos.first, hex_pos.second, parent_temp_ring_hex.first, parent_temp_ring_hex.second);
@@ -529,8 +531,8 @@ string get_move(){
                                 for(int k= 0; k< v_child_child.size(); k++){
                                     string temp_string = marker_5(v_child[k], i, hex_pos);
                                     if(temp_string == "-1"){
-                                        v_child.erase(v_child.begin() + k );
-                                        k--;
+                                        // v_child.erase(v_child.begin() + k );
+                                        // k--;
 
                                         //undo the move
                                         ring_update_opponent(hex_pos_child.first, hex_pos_child.second, hex_temp_ring_child.first, hex_temp_ring_child.second);
@@ -545,19 +547,19 @@ string get_move(){
 
                                         break;
                                     }
-                                    else if(temp_string != ""){
-                                        //undo the move
-                                        ring_update_opponent(hex_pos_child.first, hex_pos_child.second, hex_temp_ring_child.first, hex_temp_ring_child.second);
-                                        remove_single_marker(hex_temp_ring_child.first, hex_temp_ring_child.second);
-                                        switch_marker(hex_temp_ring_child.first, hex_temp_ring_child.second, hex_pos_child.first, hex_pos_child.second);
-
-                                        //undo the parent
-                                        ring_update_self(hex_pos.first, hex_pos.second, parent_temp_ring_hex.first, parent_temp_ring_hex.second);
-                                        remove_single_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second);
-                                        switch_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
-
-                                        return temp_string;
-                                    }
+                                    // else if(temp_string != ""){
+                                    //     //undo the move
+                                    //     ring_update_opponent(hex_pos_child.first, hex_pos_child.second, hex_temp_ring_child.first, hex_temp_ring_child.second);
+                                    //     remove_single_marker(hex_temp_ring_child.first, hex_temp_ring_child.second);
+                                    //     switch_marker(hex_temp_ring_child.first, hex_temp_ring_child.second, hex_pos_child.first, hex_pos_child.second);
+                                    //
+                                    //     //undo the parent
+                                    //     ring_update_self(hex_pos.first, hex_pos.second, parent_temp_ring_hex.first, parent_temp_ring_hex.second);
+                                    //     remove_single_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second);
+                                    //     switch_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
+                                    //
+                                    //     return temp_string;
+                                    // }
                                 }
 
                                 if(flag_continue_child){

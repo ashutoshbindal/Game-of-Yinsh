@@ -95,7 +95,7 @@ void bound_ring(int x, int y, int z){
 			}
 			if(temp.x == x){
 				//this ring lies on the same x
-				if(temp.y < y && ring_bound[0].y<= temp.y){
+				if(temp.y < y && ring_bound[0].y <= temp.y){
 					ring_bound[0] = cordinate2 {x, temp.y+1, temp.z+1};
 				}
 				if(temp.y > y && ring_bound[1].y>= temp.y){
@@ -116,10 +116,10 @@ void bound_ring(int x, int y, int z){
 			else if(temp.z == z){
 				//this ring lies on the same z
 				if(temp.y < y && ring_bound[4].y<= temp.y){
-					ring_bound[4] = cordinate2 {temp.x+1, temp.y+1, z};
+					ring_bound[4] = cordinate2 {temp.x-1, temp.y+1, z};
 				}
 				if(temp.y > y && ring_bound[5].y>= temp.y){
-					ring_bound[5] = cordinate2 {temp.x-1, temp.y-1, z};
+					ring_bound[5] = cordinate2 {temp.x+1, temp.y-1, z};
 				}
 
 			}
