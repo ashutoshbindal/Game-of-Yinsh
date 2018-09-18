@@ -468,6 +468,7 @@ string get_move(){
                     vector<pair<int, int> > v_child = switch_marker_return(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
                     v_child.push_back(pair<int, int>(parent_temp_ring_hex.first, parent_temp_ring_hex.second));
 
+                    bool flag_continue = false;
                     for(int k=0; k<v_child.size(); k++){
                         // cout<<k<<endl;
                         string temp_string = marker_5(v_child[k], i, hex_pos);
@@ -480,8 +481,8 @@ string get_move(){
                             ring_update_self(hex_pos.first, hex_pos.second, parent_temp_ring_hex.first, parent_temp_ring_hex.second);
                             remove_single_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second);
                             switch_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
-
-                            continue;
+                            flag_continue = true;
+                            break;
                         }
                         else if(temp_string != ""){
                             //undo the move
@@ -492,6 +493,10 @@ string get_move(){
                             return temp_string;
                         }
                         // cout<<k<<endl;
+                    }
+
+                    if(flag_continue){
+                        continue;
                     }
                     // cout<<endl;
 
