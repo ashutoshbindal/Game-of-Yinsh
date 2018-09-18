@@ -5,7 +5,7 @@
 #include <limits.h>
 #include <algorithm>
 
-
+#include <fstream>
 #include <chrono>
 #include <thread>
 
@@ -534,6 +534,8 @@ string get_move(){
         int min_gchild;
         int max_child = INT_MIN;
         pair<pair<int, int>, pair<int, int> > final_result;
+        pair<int, int> final_start;
+        pair<int, int> final_end;
         for(int i=0; i<5; i++){
             if(ring_self[i][0] != -1 && ring_self[i][1] != -1){
                 // cout<<"inside minimax"<<i;
@@ -546,6 +548,14 @@ string get_move(){
                     // cout<<"#########"<<j<<"@@@@@"<<endl;
                     cordinate2 temp_pos = pos[j];
                     pair<int, int> hex_pos = cart2hex[temp_pos.x][temp_pos.y][temp_pos.z];
+
+                    //writing in file
+                    // ofstream myfile;
+                    // myfile.open("writeup.txt", ios_base::app);
+                    // myfile<<move_num<<":hex:"<<hex_pos.first<<" "<<hex_pos.second<<endl;
+                    // myfile<<move_num<<":cart:"<<temp_pos.x<<" "<<temp_pos.y<<" "<<temp_pos.z<<endl;
+                    // myfile.close();
+
                     // cout<<hex_pos.first<<" "<<hex_po
                     ring_update_self(ring_self[i][0], ring_self[i][1], hex_pos.first, hex_pos.second);
         			//marker update on the old ring position
@@ -711,9 +721,16 @@ string get_move(){
                     if(min_gchild > max_child){
 						// this_thread::sleep_for(chrono::milliseconds(5000));
                         max_child = min_gchild;
-                        pair<int, int> final_start;
+                        // pair<int, int> final_start;
                         final_start = {parent_temp_ring_hex.first, parent_temp_ring_hex.second};
-                        final_result = {final_start, hex_pos};
+                        final_end = {hex_pos.first, hex_pos.second};
+                        final_result = {final_start, final_end};
+
+                        // //writing in file
+                        // ofstream myfile;
+                        // myfile.open("writeup.txt", ios_base::app);
+                        // myfile<<move_num<<" "<<hex_pos.first<<" "<<hex_pos.second<<endl;
+                        // myfile.close();
                     }
 
                     //undo the move
@@ -733,6 +750,12 @@ string get_move(){
         string ans = "S " + to_string((final_result.first).first) + " " + to_string((final_result.first).second);
         ans = ans + " M " + to_string((final_result.second).first) + " " + to_string((final_result.second).second);
         move_num++;
+
+        //writing in file
+        // ofstream myfile;
+        // myfile.open("writeup.txt", ios_base::app);
+        // myfile<<move_num<<" "<<ans<<endl;
+        // myfile.close();
 
         return ans;
     }
@@ -986,6 +1009,7 @@ int exist_ring(int hex, int pos){
 }
 
 string marker_5(pair<int, int> v, pair<int, int> hex_pos_parent, pair<int, int> hex_pos){
+    // cout<<"inside marker_5"<<endl;
     cordinate2 temp_child = hex2cart[v];
     if(board_state1[temp_child.x][temp_child.y][temp_child.z] != -1){
         pair<vector<pair<cordinate2, cordinate2>>, vector<pair<cordinate2, cordinate2> > > temp_check = check_5(temp_child.x, temp_child.y, temp_child.z);
@@ -1000,15 +1024,26 @@ string marker_5(pair<int, int> v, pair<int, int> hex_pos_parent, pair<int, int> 
             // continue;
         }
         else if(temp_check_self.size() > 0){
+            // ofstream myfile;
+            // myfile.open("writeup.txt", ios_base::app);
+            // myfile<<"inside"<<endl;
+
             string temp_move = "S " + to_string(hex_pos_parent.first) + " " + to_string(hex_pos_parent.second) + " M " + to_string(hex_pos.first) + " " + to_string(hex_pos.second);
+            // myfile<<"inside2"<<endl;
             cordinate2 cart_marker_start = temp_check_self[0].first;
             cordinate2 cart_marker_end = temp_check_self[0].second;
+            // myfile<<"inside3"<<endl;
             pair<pair<int, int>, pair<int, int> > rem_marker_final = select_5(pair<cordinate2, cordinate2> (cart_marker_start, cart_marker_end));
+
+            // myfile<<"inside1"<<endl;
             pair<int, int> hex_marker_start = rem_marker_final.first;
             pair<int, int> hex_marker_end = rem_marker_final.second;
             temp_move = temp_move + " RS " + to_string(hex_marker_start.first) + " " + to_string(hex_marker_start.second);
             temp_move = temp_move + " RE " + to_string(hex_marker_end.first) + " " + to_string(hex_marker_end.second);
 
+
+            // myfile<<"temp_string::"<<temp_move<<endl;
+            // myfile.close();
             //choosing the ring to remove marker
             int select_ring;
             srand (time(NULL));

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 
 #include "map.h"
 #include "player.h"
@@ -8,6 +9,8 @@
 using namespace std;
 
 int main(int argc, char** argv) {
+
+
 
     int player_id, board_size, time_limit;
     string move_string;
@@ -19,6 +22,16 @@ int main(int argc, char** argv) {
     initialize_score();
     initialize_board_state1();
     initialize_player();
+
+    //just checking some functions
+    // vector<pair<int, int> > ans_func = places(4, 12, 0, 0);
+    // ofstream fout;
+    // fout.open("func_check.txt", ios_base::app);
+    // fout<<"size::"<<ans_func.size()<<endl;
+    // for(int i=0; i<ans_func.size(); i++){
+    //     fout<<ans_func[i].first<<" "<<ans_func[i].second<<endl;
+    // }
+    // fout.close();
 
     // Get input from server about game specifications
     cin >> player_id >> board_size >> time_limit;

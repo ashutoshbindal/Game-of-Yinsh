@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <fstream>
 
 #include "player.h"
 #include "map.h"
@@ -655,9 +656,53 @@ pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> 
 pair<pair<int, int>, pair<int, int> > select_5(pair<cordinate2, cordinate2> p){
 	pair<int, int> pos1 = cart2hex[(p.first).x][(p.first).y][(p.first).z];
 	pair<int, int> pos2 = cart2hex[(p.second).x][(p.second).y][(p.second).z];
+
+	// ofstream myfile;
+	// myfile.open("writeup.txt", ios_base::app);
+	// myfile<<"up1"<<endl;
+
 	vector<pair<int, int> > mid_places = places(pos1.first, pos1.second, pos2.first, pos2.second);
+
+	// myfile<<"params::"<<pos1.first<<" "<<pos1.second<<" "<<pos2.first<<" "<<pos2.second<<endl;
+
 	pair<pair<int, int>, pair<int, int> > p_return;
-	if(mid_places.size() != 3)	pos2 = mid_places[3];
+
+	// myfile<<"up2"<<endl;
+	// myfile.close();
+
+	bool flag_left = false;
+
+	if(mid_places.size() != 3){
+		if((p.first).x == (p.second).x){
+			if((p.first).y < (p.second).y){
+				flag_left = true;
+			}
+		}
+		else if((p.first).y == (p.second).y){
+			if((p.first).x < (p.second).y){
+				flag_left = true;
+			}
+		}
+		else{
+			if((p.first).x < (p.second).y){
+				flag_left = true;
+			}
+		}
+	}
+	else{
+		p_return = {pos1, pos2};
+		return p_return;
+	}
+	// myfile<<"up4"<<endl;
+	// myfile<<mid_places.size()<<endl;
+	if(flag_left){
+		pos2 = mid_places[3];
+	}
+	else{
+		pos1 = mid_places[3];
+	}
+	// myfile<<"up3"<<endl;
+	// myfile.close();
 	p_return = {pos1, pos2};
 	return p_return;
 }

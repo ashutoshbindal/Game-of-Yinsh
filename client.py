@@ -280,6 +280,8 @@ def game_loop(args):
 			message['meta'] = 'INVALID MOVE BY PLAYER ' + player_id + \
 								' : Player ' +  str(player_id) + ' SCORE : ' + str(game.get_score(player_id, player_id)) +  \
 								' : Player ' +  str(int(player_id)%2+1) + ' SCORE : ' + str(game.get_score(int(player_id)%2+1, player_id))
+			while True:
+				time.sleep(4)
 			print 'INVALID MOVE ON THIS CLIENT'
 		elif success == 1:
 			message = move
