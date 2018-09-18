@@ -185,12 +185,15 @@ void bound_marker(int x, int y, int z){
 }
 
 vector<cordinate2> give_positions(int x, int y, int z){
+	// cout<<"inside postions"<<endl;
 	bound_ring(x, y, z);
 	bound_marker(x, y, z);
+	// cout<<"intermediate pos"<<endl;
 	vector<cordinate2> v;
 	int i, j, k;
 	i= x;
 	k = ring_bound[0].z-1;
+	cout<<"##"<<i<<"@@"<<k<<endl;
 	cordinate2 temp_cor;
 	for(j= ring_bound[0].y; j<= ring_bound[1].y; j++){
 		k++;
@@ -209,6 +212,7 @@ vector<cordinate2> give_positions(int x, int y, int z){
 		temp_cor = {i, j, z};
 		if(i!= x && k!= z && board_state1[i][j][z]== -1)	v.push_back(temp_cor);
 	}
+	// cout<<"ending positions"<<endl;
 	return v;
 }
 

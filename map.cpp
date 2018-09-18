@@ -127,7 +127,7 @@ void initialize(){
 
 	//hex0
 	temp1 = {0, 0};
-	temp2 = {6, 6, 6};
+	temp2 = {5, 5, 5};
 	hex2cart[temp1] = temp2;
 
 	//hex1

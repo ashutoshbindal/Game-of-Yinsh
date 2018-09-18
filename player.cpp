@@ -443,25 +443,33 @@ string get_move(){
         return temp_move;
     }
     else{
+        // cout<<"inside minimax"<<move_num<<endl;
         //min-max declaration
         int min_gchild;
         int max_child = INT_MIN;
         pair<pair<int, int>, pair<int, int> > final_result;
         for(int i=0; i<5; i++){
             if(ring_self[i][0] != -1 && ring_self[i][1] != -1){
+                // cout<<"inside minimax"<<i;
                 cordinate2 temp_ring = hex2cart[pair<int, int>(ring_self[i][0], ring_self[i][1])];
+                // cout<<"ring::"<<ring_self[i][0]<<ring_self[i][1]<<"@"<<temp_ring.x<<"#"<<temp_ring.y<<"#"<<temp_ring.z<<endl;
                 vector<cordinate2> pos = give_positions(temp_ring.x, temp_ring.y, temp_ring.z);
                 for(int j=0; j<pos.size(); j++){
+                    // cout<<"#########"<<j<<"@@@@@"<<endl;
                     cordinate2 temp_pos = pos[j];
                     pair<int, int> hex_pos = cart2hex[temp_pos.x][temp_pos.y][temp_pos.z];
                     ring_update_self(ring_self[i][0], ring_self[i][1], hex_pos.first, hex_pos.second);
         			//marker update on the old ring position
         			add_marker_self(ring_self[i][0], ring_self[i][1]);
-        			//switch the color of the markers in between
+                    // cout<<"######"<<endl;
+                    //switch the color of the markers in between
                     vector<pair<int, int> > v_child = switch_marker_return(ring_self[i][0], ring_self[i][1], hex_pos.first, hex_pos.second);
                     v_child.push_back(pair<int, int>(ring_self[i][0], ring_self[i][1]));
+
                     for(int k=0; k<v_child.size(); k++){
+                        // cout<<k<<endl;
                         string temp_string = marker_5(v_child[k], i, hex_pos);
+                        // cout<<"ans::::::"<<temp_string<<"##"<<endl;
                         if(temp_string == "-1"){
                             v_child.erase(v_child.begin() + k );
                             k--;
@@ -481,14 +489,16 @@ string get_move(){
 
                             return temp_string;
                         }
+                        // cout<<k<<endl;
                     }
+                    // cout<<endl;
 
                     //no combination of 5 markers
                     //go one more layer into the children
 
                     //min initialize
                     min_gchild = INT_MAX;
-
+                    // cout<<"inside minimax"<<endl;
                     for(int i_child=0; i_child<5; i_child++){
                         if(ring_self[i_child][0] != -1 && ring_self[i_child][1] != -1){
                             cordinate2 temp_ring_child = hex2cart[pair<int, int>(ring_self[i_child][0], ring_self[i_child][1])];
