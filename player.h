@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include "map.h"
 using namespace std;
 
 void split(string, string, vector<string>&);
@@ -18,6 +19,9 @@ extern int ring_opponent[5][2];
 
 extern vector<pair<int, int> > marker_self;
 extern vector<pair<int, int> > marker_opponent;
+
+extern bool global_move_flag;
+extern string check_move;
 
 void initialize_player();
 
@@ -45,10 +49,15 @@ void add_multiple_marker_opponent(int, int, int, int);
 
 vector<pair<int, int> > switch_marker_return(int, int, int, int);
 
-string marker_5(pair<int, int>, int, pair<int, int>);
+string marker_5(pair<int, int>, pair<int, int>, pair<int, int>);
 int exist_ring(int, int);
 // int eval_func();
 string get_move();
+
+
+void check_5_single(int, int, int);
+void check_5_multiple(int, int, int, int);
+string check_5_string(vector<pair<cordinate2, cordinate2> > );
 
 
 #endif

@@ -25,28 +25,34 @@ int main(int argc, char** argv) {
     getline(cin, random);
     // cout<<"stats:::"<<player_id<<" "<<board_size<<" "<<time_limit<<endl;
     if(player_id == 2) {
+        global_move_flag = false;
         // Get other player's move
         getline(cin, move_string);
         // cout<<"main::::"<<move_string<<"#"<<endl;
         update_opponent(move_string);
 
         while(true) {
-        	move_string = get_move();
+        	if(!global_move_flag)  move_string = get_move();
+            else    move_string = check_move;
             // cout<<move_string<<endl;
         	update_self(move_string);
             // cout<<"##########################"<<endl;
             cout<<move_string<<endl;
             getline(cin, move_string);
+            global_move_flag = false;
             update_opponent(move_string);
         }
     }
     else if(player_id == 1) {
+        global_move_flag = false;
         while(true) {
-        	move_string = get_move();
+            if(!global_move_flag)  move_string = get_move();
+            else    move_string = check_move;
         	// cout<<move_string<<endl
         	update_self(move_string);
             cout<<move_string<<endl;
             getline(cin, move_string);
+            global_move_flag = false;
             update_opponent(move_string);
         }
     }

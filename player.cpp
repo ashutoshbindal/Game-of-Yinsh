@@ -20,6 +20,9 @@ int number_ring_self;
 int number_ring_opponent;
 int ring_self[5][2];
 int ring_opponent[5][2];
+bool global_move_flag;
+string check_move;
+
 
 vector<pair<int, int> > marker_self;
 vector<pair<int, int> > marker_opponent;
@@ -48,6 +51,8 @@ void initialize_player(){
 	number_ring_self = 0;
 	number_ring_opponent = 0;
     move_num = 0;
+    global_move_flag = false;
+    check_move = "";
 
 	//Initialize for all the ring position to -1
 	for(int i=0; i<5; i++)
@@ -149,6 +154,8 @@ void update_opponent(string move){
             update_board_score(temp_update_score.x, temp_update_score.y, temp_update_score.z);
 
             update_multiple_board_score(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
+            check_5_single(temp_update_score.x, temp_update_score.y, temp_update_score.z);
+            check_5_multiple(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
 		}
 		else if(segment.size() == 15){
 			ring_update_opponent(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
@@ -169,6 +176,9 @@ void update_opponent(string move){
 
             update_multiple_board_score(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
             update_multiple_board_score(stoi(segment[7]), stoi(segment[8]), stoi(segment[10]), stoi(segment[11]));
+            check_5_single(temp_update_score.x, temp_update_score.y, temp_update_score.z);
+            check_5_multiple(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
+            check_5_multiple(stoi(segment[7]), stoi(segment[8]), stoi(segment[10]), stoi(segment[11]));
 		}
 	}
     else if(segment[0] == "RS"){
@@ -182,6 +192,45 @@ void update_opponent(string move){
     }
 	else{
 
+	}
+}
+
+void check_5_single(int x, int y, int z){
+	pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> > > v = check_5(x, y, z);
+	vector<pair<cordinate2, cordinate2> > v_mine = v.first;
+	vector<pair<cordinate2, cordinate2> > v_second = v.second;
+	if(v_mine.size()> 0){
+		global_move_flag = true;
+		check_move = check_5_string(v_mine);
+	}
+}
+
+void check_5_multiple(int hex1, int pos1, int hex2, int pos2){
+	pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> > > v = check_5_hex_pos(hex1, pos1);
+	vector<pair<cordinate2, cordinate2> > v_mine = v.first;
+	if(v_mine.size()> 0){
+		global_move_flag = true;
+		check_move = check_5_string(v_mine);
+		return ;
+	}
+
+	v = check_5_hex_pos(hex2, pos2);
+	v_mine = v.first;
+	if(v_mine.size()> 0){
+		global_move_flag = true;
+		check_move = check_5_string(v_mine);
+		return ;
+	}
+
+	vector<pair<int, int> > location = places(hex1, pos1, hex2, pos2);
+	for(int i= 0; i< location.size(); i++){
+		v = check_5_hex_pos(location[i].first, location[i].second);
+		v_mine = v.first;
+		if(v_mine.size()> 0){
+			global_move_flag = true;
+			check_move = check_5_string(v_mine);
+			return ;
+		}
 	}
 }
 
@@ -517,7 +566,7 @@ string get_move(){
                     bool flag_continue = false;
                     for(int k=0; k<v_child.size(); k++){
                         // cout<<k<<endl;
-                        string temp_string = marker_5(v_child[k], i, hex_pos);
+                        string temp_string = marker_5(v_child[k], parent_temp_ring_hex, hex_pos);
                         // cout<<"ans::::::"<<temp_string<<"##"<<endl;
                         if(temp_string == "-1"){
                             // v_child.erase(v_child.begin() + k );
@@ -590,7 +639,7 @@ string get_move(){
 
                                 bool flag_continue_child = false;
                                 for(int k= 0; k< v_child_child.size(); k++){
-                                    string temp_string = marker_5(v_child[k], i, hex_pos);
+                                    string temp_string = marker_5(v_child[k], hex_temp_ring_child, hex_pos);
                                     if(temp_string == "-1"){
                                         // v_child.erase(v_child.begin() + k );
                                         // k--;
@@ -935,7 +984,7 @@ int exist_ring(int hex, int pos){
     return a;
 }
 
-string marker_5(pair<int, int> v, int i, pair<int, int> hex_pos){
+string marker_5(pair<int, int> v, pair<int, int> hex_pos_parent, pair<int, int> hex_pos){
     cordinate2 temp_child = hex2cart[v];
     if(board_state1[temp_child.x][temp_child.y][temp_child.z] != -1){
         pair<vector<pair<cordinate2, cordinate2>>, vector<pair<cordinate2, cordinate2> > > temp_check = check_5(temp_child.x, temp_child.y, temp_child.z);
@@ -950,7 +999,7 @@ string marker_5(pair<int, int> v, int i, pair<int, int> hex_pos){
             // continue;
         }
         else if(temp_check_self.size() > 0){
-            string temp_move = "S " + to_string(ring_self[i][0]) + " " + to_string(ring_self[i][1]) + " M " + to_string(hex_pos.first) + " " + to_string(hex_pos.second);
+            string temp_move = "S " + to_string(hex_pos_parent.first) + " " + to_string(hex_pos_parent.second) + " M " + to_string(hex_pos.first) + " " + to_string(hex_pos.second);
             cordinate2 cart_marker_start = temp_check_self[0].first;
             cordinate2 cart_marker_end = temp_check_self[0].second;
             pair<pair<int, int>, pair<int, int> > rem_marker_final = select_5(pair<cordinate2, cordinate2> (cart_marker_start, cart_marker_end));
@@ -973,4 +1022,28 @@ string marker_5(pair<int, int> v, int i, pair<int, int> hex_pos){
     }
     string a = "";
     return a;
+}
+
+
+string check_5_string(vector<pair<cordinate2, cordinate2> > v_self){
+	cordinate2 cart_marker_start = v_self[0].first;
+    cordinate2 cart_marker_end = v_self[0].second;
+    pair<pair<int, int>, pair<int, int> > rem_marker_final = select_5(pair<cordinate2, cordinate2> (cart_marker_start, cart_marker_end));
+    pair<int, int> hex_marker_start = rem_marker_final.first;
+    pair<int, int> hex_marker_end = rem_marker_final.second;
+
+    string temp_move = "";
+    temp_move = temp_move + " RS " + to_string(hex_marker_start.first) + " " + to_string(hex_marker_start.second);
+    temp_move = temp_move + " RE " + to_string(hex_marker_end.first) + " " + to_string(hex_marker_end.second);
+
+    //choosing the ring to remove marker
+    int select_ring;
+    srand (time(NULL));
+    select_ring = rand()%5;
+    while (ring_self[select_ring][0] == -1 || ring_self[select_ring][1] == -1) {
+        select_ring = rand()%5;
+    }
+    temp_move = temp_move + " X " + to_string(ring_self[select_ring][0]) + " " + to_string(ring_self[select_ring][1]);
+
+    return temp_move;
 }

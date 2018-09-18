@@ -662,9 +662,16 @@ pair<pair<int, int>, pair<int, int> > select_5(pair<cordinate2, cordinate2> p){
 	return p_return;
 }
 
-void update_multiple_board_score(int hex1, int pos1, int hex2, int pos2){
-	vector<pair<int, int> > location = places(hex1, pos1, hexx2, pos2);
+pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> > > check_5_hex_pos(int hex, int pos){
+	cordinate2 cor = hex2cart[pair<int, int> (hex, pos)];
+	return check_5(cor.x, cor.y, cor.z);
+}
 
+void update_multiple_board_score(int hex1, int pos1, int hex2, int pos2){
+	vector<pair<int, int> > location = places(hex1, pos1, hex2, pos2);
+
+	update_hex_board_score(hex1, pos1);
+	update_hex_board_score(hex2, pos2);
 	for(int i=0; i<location.size(); i++){
 		pair<int, int> hex_loc = location[i];
 		cordinate2 temp_loc = hex2cart[hex_loc];
@@ -677,5 +684,5 @@ void update_hex_board_score(int hex, int pos){
 	temp = {hex, pos};
 
 	cordinate2 cord_temp = hex2cart[temp];
-	update_board_score(temp.x, temp.y, temp,z);
+	update_board_score(cord_temp.x, cord_temp.y, cord_temp.z);
 }
