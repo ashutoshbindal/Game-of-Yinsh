@@ -84,6 +84,13 @@ void update_self(string move){
 
 			//switch the color of the markers in between
             switch_marker(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
+
+            //update board score
+            cordinate2 temp_update_score = hex2cart[pair<int, int>(stoi(segment[1]), stoi(segment[2]))];
+            update_board_score(temp_update_score.x, temp_update_score.y, temp_update_score.z);
+
+            update_multiple_board_score(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
+
 		}
 		else if(segment.size() == 15){
 			ring_update_self(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
@@ -97,6 +104,13 @@ void update_self(string move){
             remove_marker(stoi(segment[7]), stoi(segment[8]), stoi(segment[10]), stoi(segment[11]));
 
 			ring_remove_self(stoi(segment[13]), stoi(segment[14]));
+
+            //update board score
+            cordinate2 temp_update_score = hex2cart[pair<int, int>(stoi(segment[1]), stoi(segment[2]))];
+            update_board_score(temp_update_score.x, temp_update_score.y, temp_update_score.z);
+
+            update_multiple_board_score(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
+            update_multiple_board_score(stoi(segment[7]), stoi(segment[8]), stoi(segment[10]), stoi(segment[11]));
 		}
 	}
     else if(segment[0] == "RS"){
@@ -104,6 +118,9 @@ void update_self(string move){
         remove_marker(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
 
         ring_remove_self(stoi(segment[7]), stoi(segment[8]));
+
+        //update board score
+        update_multiple_board_score(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
     }
 	else {
 
@@ -126,6 +143,12 @@ void update_opponent(string move){
 
 			//switch the color of the markers in between
             switch_marker(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
+
+            //update board score
+            cordinate2 temp_update_score = hex2cart[pair<int, int>(stoi(segment[1]), stoi(segment[2]))];
+            update_board_score(temp_update_score.x, temp_update_score.y, temp_update_score.z);
+
+            update_multiple_board_score(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
 		}
 		else if(segment.size() == 15){
 			ring_update_opponent(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
@@ -139,6 +162,13 @@ void update_opponent(string move){
             remove_marker(stoi(segment[7]), stoi(segment[8]), stoi(segment[10]), stoi(segment[11]));
 
 			ring_remove_opponent(stoi(segment[13]), stoi(segment[14]));
+
+            //update board score
+            cordinate2 temp_update_score = hex2cart[pair<int, int>(stoi(segment[1]), stoi(segment[2]))];
+            update_board_score(temp_update_score.x, temp_update_score.y, temp_update_score.z);
+
+            update_multiple_board_score(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
+            update_multiple_board_score(stoi(segment[7]), stoi(segment[8]), stoi(segment[10]), stoi(segment[11]));
 		}
 	}
     else if(segment[0] == "RS"){
@@ -146,6 +176,9 @@ void update_opponent(string move){
         remove_marker(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
 
         ring_remove_opponent(stoi(segment[7]), stoi(segment[8]));
+
+        //update board score
+        update_multiple_board_score(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
     }
 	else{
 
@@ -220,7 +253,7 @@ void add_marker_self(int hex, int pos){
     // board_state[temp_marker.z][2].push_back(m3);
 
     //update board score
-    update_board_score(temp_marker.x, temp_marker.y, temp_marker.z);
+    // update_board_score(temp_marker.x, temp_marker.y, temp_marker.z);
 }
 
 void add_marker_opponent(int hex, int pos){
@@ -236,8 +269,8 @@ void add_marker_opponent(int hex, int pos){
     // board_state[temp_marker.y][1].push_back(m2);
     // board_state[temp_marker.z][2].push_back(m3);
 
-    //update_board_score
-    update_board_score(temp_marker.x, temp_marker.y, temp_marker.z);
+    //update board score
+    // update_board_score(temp_marker.x, temp_marker.y, temp_marker.z);
 }
 
 void switch_marker(int hex1, int pos1, int hex2, int pos2){
@@ -294,14 +327,14 @@ void switch_marker(int hex1, int pos1, int hex2, int pos2){
     }
 
     //update board score
-    for(int i=0; i<mark.size(); i++){
-        pair<int, int> temp_hex = mark[i];
-        cordinate2 temp = hex2cart[temp_hex];
-
-        if(board_state1[temp.x][temp.y][temp.z] != -1){
-            update_board_score(temp.x, temp.y, temp.z);
-        }
-    }
+    // for(int i=0; i<mark.size(); i++){
+    //     pair<int, int> temp_hex = mark[i];
+    //     cordinate2 temp = hex2cart[temp_hex];
+    //
+    //     if(board_state1[temp.x][temp.y][temp.z] != -1){
+    //         update_board_score(temp.x, temp.y, temp.z);
+    //     }
+    // }
 }
 
 vector<pair<int, int> > switch_marker_return(int hex1, int pos1, int hex2, int pos2){
@@ -357,14 +390,14 @@ vector<pair<int, int> > switch_marker_return(int hex1, int pos1, int hex2, int p
         // }
     }
     //update board score
-    for(int i=0; i<mark.size(); i++){
-        pair<int, int> temp_hex = mark[i];
-        cordinate2 temp = hex2cart[temp_hex];
-
-        if(board_state1[temp.x][temp.y][temp.z] != -1){
-            update_board_score(temp.x, temp.y, temp.z);
-        }
-    }
+    // for(int i=0; i<mark.size(); i++){
+    //     pair<int, int> temp_hex = mark[i];
+    //     cordinate2 temp = hex2cart[temp_hex];
+    //
+    //     if(board_state1[temp.x][temp.y][temp.z] != -1){
+    //         update_board_score(temp.x, temp.y, temp.z);
+    //     }
+    // }
     return mark;
 }
 
@@ -416,12 +449,12 @@ void remove_marker(int hex1, int pos1, int hex2, int pos2){
         // }
     }
     //update board score
-    for(int i=0; i<mark.size(); i++){
-        pair<int, int> temp_hex = mark[i];
-        cordinate2 temp = hex2cart[temp_hex];
-
-        update_board_score(temp.x, temp.y, temp.z);
-    }
+    // for(int i=0; i<mark.size(); i++){
+    //     pair<int, int> temp_hex = mark[i];
+    //     cordinate2 temp = hex2cart[temp_hex];
+    //
+    //     update_board_score(temp.x, temp.y, temp.z);
+    // }
 }
 
 string get_move(){
@@ -472,6 +505,12 @@ string get_move(){
                     // cout<<"######"<<endl;
                     //switch the color of the markers in between
                     vector<pair<int, int> > v_child = switch_marker_return(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
+
+                    // //update board score
+                    cordinate2 temp_parent_temp_ring_hex = hex2cart[parent_temp_ring_hex];
+                    update_board_score(temp_parent_temp_ring_hex.x, temp_parent_temp_ring_hex.y, temp_parent_temp_ring_hex.z);
+                    update_multiple_board_score(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
+
                     v_child.push_back(pair<int, int>(parent_temp_ring_hex.first, parent_temp_ring_hex.second));
 
                     bool flag_continue = false;
@@ -487,6 +526,11 @@ string get_move(){
                             ring_update_self(hex_pos.first, hex_pos.second, parent_temp_ring_hex.first, parent_temp_ring_hex.second);
                             remove_single_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second);
                             switch_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
+
+                            //update board score
+                            update_hex_board_score(parent_temp_ring_hex.first, parent_temp_ring_hex.second);
+                            update_multiple_board_score(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
+
                             flag_continue = true;
                             break;
                         }
@@ -495,6 +539,10 @@ string get_move(){
                             ring_update_self(hex_pos.first, hex_pos.second, parent_temp_ring_hex.first, parent_temp_ring_hex.second);
                             remove_single_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second);
                             switch_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
+
+                            //update board score
+                            update_hex_board_score(parent_temp_ring_hex.first, parent_temp_ring_hex.second);
+                            update_multiple_board_score(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
 
                             return temp_string;
                         }
@@ -529,6 +577,13 @@ string get_move(){
                                 // pair<int, int>
                                 add_marker_opponent(hex_temp_ring_child.first, hex_temp_ring_child.second);
                                 vector<pair<int, int> > v_child_child = switch_marker_return(hex_temp_ring_child.first, hex_temp_ring_child.second, hex_pos_child.first, hex_pos_child.second);
+
+                                //update board score
+                                cordinate2 temp_hex_temp_ring_child = hex2cart[hex_temp_ring_child];
+                                update_board_score(temp_hex_temp_ring_child.x, temp_hex_temp_ring_child.y, temp_hex_temp_ring_child.z);
+
+                                update_multiple_board_score(hex_temp_ring_child.first, hex_temp_ring_child.second, hex_pos_child.first, hex_pos_child.second);
+
                                 v_child_child.push_back(pair<int, int>(hex_temp_ring_child.first, hex_temp_ring_child.second));
 
                                 bool flag_continue_child = false;
@@ -543,11 +598,18 @@ string get_move(){
                                         remove_single_marker(hex_temp_ring_child.first, hex_temp_ring_child.second);
                                         switch_marker(hex_temp_ring_child.first, hex_temp_ring_child.second, hex_pos_child.first, hex_pos_child.second);
 
+
                                         //undo the parent
                                         ring_update_self(hex_pos.first, hex_pos.second, parent_temp_ring_hex.first, parent_temp_ring_hex.second);
                                         remove_single_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second);
                                         switch_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
                                         flag_continue_child = true;
+
+                                        //update the board score
+                                        update_hex_board_score(hex_temp_ring_child.first, hex_temp_ring_child.second);
+                                        update_hex_board_score(parent_temp_ring_hex.first, parent_temp_ring_hex.second);
+                                        update_multiple_board_score(hex_temp_ring_child.first, hex_temp_ring_child.second, hex_pos_child.first, hex_pos_child.second);
+                                        update_multiple_board_score(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
 
                                         break;
                                     }
@@ -580,6 +642,10 @@ string get_move(){
                                 ring_update_opponent(hex_pos_child.first, hex_pos_child.second, hex_temp_ring_child.first, hex_temp_ring_child.second);
                                 remove_single_marker(hex_temp_ring_child.first, hex_temp_ring_child.second);
                                 switch_marker(hex_temp_ring_child.first, hex_temp_ring_child.second, hex_pos_child.first, hex_pos_child.second);
+
+                                //update board score
+                                update_hex_board_score(hex_temp_ring_child.first, hex_temp_ring_child.second);
+                                update_multiple_board_score(hex_temp_ring_child.first, hex_temp_ring_child.second, hex_pos_child.first, hex_pos_child.second);
                             }
                             if(flag_parent_skip){
                                 flag_parent_parent_skip = true;
@@ -591,7 +657,7 @@ string get_move(){
                     //max score of all children
                     if(flag_parent_parent_skip) continue;
                     if(min_gchild > max_child){
-						this_thread::sleep_for(chrono::milliseconds(5000));
+						// this_thread::sleep_for(chrono::milliseconds(5000));
                         max_child = min_gchild;
                         pair<int, int> final_start;
                         final_start = {parent_temp_ring_hex.first, parent_temp_ring_hex.second};
@@ -602,6 +668,10 @@ string get_move(){
                     ring_update_self(hex_pos.first, hex_pos.second, parent_temp_ring_hex.first, parent_temp_ring_hex.second);
                     remove_single_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second);
                     switch_marker(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
+
+                    //update board score
+                    update_hex_board_score(parent_temp_ring_hex.first, parent_temp_ring_hex.second);
+                    update_multiple_board_score(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
                 }
 
 
@@ -635,6 +705,10 @@ void undo_update_opponent(string move){
 
 			//switch the color of the markers in between
             switch_marker(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
+
+            //update board score
+            update_hex_board_score(stoi(segment[1]), stoi(segment[2]));
+            update_multiple_board_score(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
 		}
 		else if(segment.size() == 15){
             ring_add_opponent(stoi(segment[13]), stoi(segment[14]));
@@ -649,6 +723,11 @@ void undo_update_opponent(string move){
 			remove_single_marker(stoi(segment[1]), stoi(segment[2]));
 
             ring_update_opponent(stoi(segment[4]), stoi(segment[5]), stoi(segment[1]), stoi(segment[2]));
+
+            //update board score
+            update_multiple_board_score(stoi(segment[7]), stoi(segment[8]), stoi(segment[10]), stoi(segment[11]));
+            update_hex_board_score(stoi(segment[1]), stoi(segment[2]));
+            update_multiple_board_score(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
 		}
 	}
 	else if(segment[0] == "RS"){
@@ -656,6 +735,9 @@ void undo_update_opponent(string move){
 
         //remove the markers from RS to RE
         add_multiple_marker_opponent(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
+
+        //update board score
+        update_multiple_board_score(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
 	}
     else{
 
@@ -678,6 +760,10 @@ void undo_update_self(string move){
 
 			//switch the color of the markers in between
             switch_marker(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
+
+            //update board score
+            update_hex_board_score(stoi(segment[1]), stoi(segment[2]));
+            update_multiple_board_score(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
 		}
 		else if(segment.size() == 15){
             ring_add_self(stoi(segment[13]), stoi(segment[14]));
@@ -692,6 +778,11 @@ void undo_update_self(string move){
 			remove_single_marker(stoi(segment[1]), stoi(segment[2]));
 
             ring_update_self(stoi(segment[4]), stoi(segment[5]), stoi(segment[1]), stoi(segment[2]));
+
+            //update board score
+            update_multiple_board_score(stoi(segment[7]), stoi(segment[8]), stoi(segment[10]), stoi(segment[11]));
+            update_hex_board_score(stoi(segment[1]), stoi(segment[2]));
+            update_multiple_board_score(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
 		}
 	}
     else if(segment[0] == "RS"){
@@ -699,6 +790,9 @@ void undo_update_self(string move){
 
         //remove the markers from RS to RE
         add_multiple_marker_self(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
+
+        //update board score
+        update_multiple_board_score(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
     }
 	else {
 
@@ -747,7 +841,7 @@ void remove_single_marker(int hex, int pos){
     //     }
     // }
 
-    update_board_score(temp.x, temp.y, temp.z);
+    // update_board_score(temp.x, temp.y, temp.z);
 }
 
 void ring_add_self(int hex, int pos){
@@ -789,12 +883,12 @@ void add_multiple_marker_self(int hex1, int pos1, int hex2, int pos2){
         board_state1[temp.x][temp.y][temp.z] = 1;
     }
 
-    for(int i=0; i<mark.size(); i++){
-        pair<int, int> temp_hex = mark[i];
-        cordinate2 temp = hex2cart[temp_hex];
-
-        update_board_score(temp.x, temp.y, temp.z);
-    }
+    // for(int i=0; i<mark.size(); i++){
+    //     pair<int, int> temp_hex = mark[i];
+    //     cordinate2 temp = hex2cart[temp_hex];
+    //
+    //     update_board_score(temp.x, temp.y, temp.z);
+    // }
 }
 
 void add_multiple_marker_opponent(int hex1, int pos1, int hex2, int pos2){
@@ -816,12 +910,12 @@ void add_multiple_marker_opponent(int hex1, int pos1, int hex2, int pos2){
         board_state1[temp.x][temp.y][temp.z] = 0;
     }
 
-    for(int i=0; i<mark.size(); i++){
-        pair<int, int> temp_hex = mark[i];
-        cordinate2 temp = hex2cart[temp_hex];
-
-        update_board_score(temp.x, temp.y, temp.z);
-    }
+    // for(int i=0; i<mark.size(); i++){
+    //     pair<int, int> temp_hex = mark[i];
+    //     cordinate2 temp = hex2cart[temp_hex];
+    //
+    //     update_board_score(temp.x, temp.y, temp.z);
+    // }
 }
 
 int exist_ring(int hex, int pos){
@@ -863,7 +957,7 @@ string marker_5(pair<int, int> v, int i, pair<int, int> hex_pos){
             temp_move = temp_move + " RS " + to_string(hex_marker_start.first) + " " + to_string(hex_marker_start.second);
             temp_move = temp_move + " RE " + to_string(hex_marker_end.first) + " " + to_string(hex_marker_end.second);
 
-            //choosing the ring to remove_marker
+            //choosing the ring to remove marker
             int select_ring;
             srand (time(NULL));
             select_ring = rand()%5;

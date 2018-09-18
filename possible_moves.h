@@ -29,6 +29,10 @@ vector<cordinate2> give_positions(int, int, int);
 
 void update_board_score(int, int, int);
 
+void update_multiple_board_score(int, int, int, int);
+
+void update_hex_board_score(int, int);
+
 int total_score();
 
 pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> > > check_5(int, int, int);

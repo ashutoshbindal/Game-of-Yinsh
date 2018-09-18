@@ -115,11 +115,11 @@ void bound_ring(int x, int y, int z){
 			}
 			else if(temp.z == z){
 				//this ring lies on the same z
-				if(temp.y < y && ring_bound[4].y<= temp.y){
-					ring_bound[4] = cordinate2 {temp.x-1, temp.y+1, z};
+				if(temp.y < y && ring_bound[5].y<= temp.y){
+					ring_bound[5] = cordinate2 {temp.x-1, temp.y+1, z};
 				}
-				if(temp.y > y && ring_bound[5].y>= temp.y){
-					ring_bound[5] = cordinate2 {temp.x+1, temp.y-1, z};
+				if(temp.y > y && ring_bound[4].y>= temp.y){
+					ring_bound[4] = cordinate2 {temp.x+1, temp.y-1, z};
 				}
 
 			}
@@ -178,7 +178,7 @@ void bound_marker(int x, int y, int z){
 	exist_x = 0;
 	j= y;
 	for(int i= x-1; i>= ring_bound[4].x; i--){
-		j--;
+		j++;
 		if(exist_x == 0 && board_state1[i][j][z]>= 0)	exist_x = 1;
 		if(exist_x == 1 && board_state1[i][j][z]== -1){
 			ring_bound[4] = cordinate2 {i, j, z};
@@ -188,7 +188,7 @@ void bound_marker(int x, int y, int z){
 	exist_x = 0;
 	j= y;
 	for(int i= x+1; i<= ring_bound[5].x; i++){
-		j++;
+		j--;
 		if(exist_x == 0 && board_state1[i][j][z]>= 0)	exist_x = 1;
 		if(exist_x == 1 && board_state1[i][j][z]== -1){
 			ring_bound[5] = cordinate2 {i, j, z};
@@ -222,7 +222,7 @@ vector<cordinate2> give_positions(int x, int y, int z){
 	}
 	i = ring_bound[4].x - 1;
 	// cout<<"##"<<i<<"@@"<<k<<endl;
-	for(j= ring_bound[4].y; j<= ring_bound[5].y; j++){
+	for(j= ring_bound[4].y; j>= ring_bound[5].y; j--){
 		i++;
 		temp_cor = {i, j, z};
 		if(i!= x && k!= z && board_state1[i][j][z]== -1)	v.push_back(temp_cor);
@@ -347,7 +347,7 @@ void update_board_score(int x, int y, int z){
 	val_opponent= 0;
 	score_temp= 0;
 	for(int i= bound_z[z][0]; i<= bound_z[z][2]; i++){
-		j = bound_z[z][1]+ cnt;
+		j = bound_z[z][1] - cnt;
 		cnt++;
 		if(board_state1[i][j][z]== 1){
 			if(mine_flag){
@@ -444,7 +444,7 @@ pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> 
 				mine_flag= true;
 			}
 		}
-		if(board_state1[x][j][k]==0){
+		else if(board_state1[x][j][k]==0){
 			if(mine_flag){
 				if(val_mine>=5){
 					v_mine.push_back(pair<cordinate2, cordinate2> (start_mine, end_mine));
@@ -467,6 +467,22 @@ pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> 
 				opponent_flag = true;
 				start_opponent = {x, j, k};
 			}
+		}
+		else{
+			if(val_mine>=5){
+				v_mine.push_back(pair<cordinate2, cordinate2> (start_mine, end_mine));
+				val_mine= 0;
+				break;
+			}
+			if(val_opponent>=5){
+				v_opponent.push_back(pair<cordinate2, cordinate2> (start_opponent, end_opponent));
+				val_opponent= 0;
+				break;
+			}
+			opponent_flag = false;
+			mine_flag = false;
+			val_mine = 0;
+			val_opponent = 0;
 		}
 	}
 	if(val_mine>= 5)	v_mine.push_back(pair<cordinate2, cordinate2> (start_mine, end_mine));
@@ -507,7 +523,7 @@ pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> 
 				mine_flag= true;
 			}
 		}
-		if(board_state1[i][j][k]==0){
+		else if(board_state1[i][j][k]==0){
 			if(mine_flag){
 				if(val_mine>=5){
 					v_mine.push_back(pair<cordinate2, cordinate2> (start_mine, end_mine));
@@ -531,6 +547,22 @@ pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> 
 				start_opponent = {i, j, k};
 			}
 		}
+		else{
+			if(val_mine>=5){
+				v_mine.push_back(pair<cordinate2, cordinate2> (start_mine, end_mine));
+				val_mine= 0;
+				break;
+			}
+			if(val_opponent>=5){
+				v_opponent.push_back(pair<cordinate2, cordinate2> (start_opponent, end_opponent));
+				val_opponent= 0;
+				break;
+			}
+			opponent_flag = false;
+			mine_flag = false;
+			val_mine = 0;
+			val_opponent = 0;
+		}
 	}
 	if(val_mine>= 5)	v_mine.push_back(pair<cordinate2, cordinate2> (start_mine, end_mine));
 	if(val_opponent>= 5)	v_opponent.push_back(pair<cordinate2, cordinate2> (start_opponent, end_opponent));
@@ -545,7 +577,7 @@ pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> 
 	k = z;
 
 	for(i= bound_z[z][0]; i< bound_z[z][2]; i++){
-		j= bound_z[z][1]+cnt;
+		j= bound_z[z][1]-cnt;
 		cnt++;
 		if(board_state1[i][j][k]== 1){
 			if(mine_flag){
@@ -571,7 +603,7 @@ pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> 
 				mine_flag= true;
 			}
 		}
-		if(board_state1[i][j][k]==0){
+		else if(board_state1[i][j][k]==0){
 			if(mine_flag){
 				if(val_mine>=5){
 					v_mine.push_back(pair<cordinate2, cordinate2> (start_mine, end_mine));
@@ -595,6 +627,22 @@ pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> 
 				start_opponent = {i, j, k};
 			}
 		}
+		else{
+			if(val_mine>=5){
+				v_mine.push_back(pair<cordinate2, cordinate2> (start_mine, end_mine));
+				val_mine= 0;
+				break;
+			}
+			if(val_opponent>=5){
+				v_opponent.push_back(pair<cordinate2, cordinate2> (start_opponent, end_opponent));
+				val_opponent= 0;
+				break;
+			}
+			opponent_flag = false;
+			mine_flag = false;
+			val_mine = 0;
+			val_opponent = 0;
+		}
 	}
 	if(val_mine>= 5)	v_mine.push_back(pair<cordinate2, cordinate2> (start_mine, end_mine));
 	if(val_opponent>= 5)	v_opponent.push_back(pair<cordinate2, cordinate2> (start_opponent, end_opponent));
@@ -612,4 +660,22 @@ pair<pair<int, int>, pair<int, int> > select_5(pair<cordinate2, cordinate2> p){
 	if(mid_places.size() != 3)	pos2 = mid_places[3];
 	p_return = {pos1, pos2};
 	return p_return;
+}
+
+void update_multiple_board_score(int hex1, int pos1, int hex2, int pos2){
+	vector<pair<int, int> > location = places(hex1, pos1, hexx2, pos2);
+
+	for(int i=0; i<location.size(); i++){
+		pair<int, int> hex_loc = location[i];
+		cordinate2 temp_loc = hex2cart[hex_loc];
+		update_board_score(temp_loc.x, temp_loc.y, temp_loc.z);
+	}
+}
+
+void update_hex_board_score(int hex, int pos){
+	pair<int, int> temp;
+	temp = {hex, pos};
+
+	cordinate2 cord_temp = hex2cart[temp];
+	update_board_score(temp.x, temp.y, temp,z);
 }
