@@ -97,7 +97,7 @@ void bound_ring(int x, int y, int z){
 
 			}
 			else if(temp.y == y){
-				//this ring lies on the same x
+				//this ring lies on the same y
 				if(temp.x < x && ring_bound[2].x<= temp.x){
 					ring_bound[2] = cordinate2 {temp.x+1, y, temp.z+1};
 				}
@@ -107,7 +107,7 @@ void bound_ring(int x, int y, int z){
 
 			}
 			else if(temp.z == z){
-				//this ring lies on the same x
+				//this ring lies on the same z
 				if(temp.z < z && ring_bound[4].y<= temp.y){
 					ring_bound[4] = cordinate2 {temp.x+1, temp.y+1, z};
 				}
@@ -193,7 +193,7 @@ vector<cordinate2> give_positions(int x, int y, int z){
 	int i, j, k;
 	i= x;
 	k = ring_bound[0].z-1;
-	cout<<"##"<<i<<"@@"<<k<<endl;
+	// cout<<"##"<<i<<"@@"<<k<<endl;
 	cordinate2 temp_cor;
 	for(j= ring_bound[0].y; j<= ring_bound[1].y; j++){
 		k++;
