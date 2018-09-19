@@ -614,7 +614,7 @@ string get_move(){
                             //update board score
                             update_hex_board_score(parent_temp_ring_hex.first, parent_temp_ring_hex.second);
                             update_multiple_board_score(parent_temp_ring_hex.first, parent_temp_ring_hex.second, hex_pos.first, hex_pos.second);
-
+                            move_num++;
                             return temp_string;
                         }
                         // cout<<k<<endl;
@@ -762,6 +762,39 @@ string get_move(){
         //make string
         string ans = "S " + to_string((final_result.first).first) + " " + to_string((final_result.first).second);
         ans = ans + " M " + to_string((final_result.second).first) + " " + to_string((final_result.second).second);
+
+        //checking if the string leads to a 5 in a sequence
+        vector<pair<int, int> > v_final = places((final_result.first).first, (final_result.first).second, (final_result.second).first, (final_result.second).second);
+        v_final.push_back(pair<int, int> ((final_result.first).first, (final_result.first).second));
+
+        //playing the move
+        ring_update_self((final_result.first).first, (final_result.first).second, (final_result.second).first, (final_result.second).second);
+        add_marker_self((final_result.first).first, (final_result.first).second);
+        switch_marker((final_result.first).first, (final_result.first).second, (final_result.second).first, (final_result.second).second);
+
+        for(int i=0; i<v_final.size(); i++){
+            //checking
+            // ofstream fout;
+            // fout.open("func_check.txt", ios_base::app);
+            // cordinate2 v_final_cart = hex2cart[v_final[i]];
+            // fout<<v_final_cart.x<<" "<<v_final_cart.y<<" "<<v_final_cart.z<<":"<<board_state1[v_final_cart.x][v_final_cart.y][v_final_cart.z]<<endl;
+
+
+            //testing the move
+            string temp_string = marker_5(v_final[i], final_result.first, final_result.second);
+            if(temp_string != "-1" && temp_string != ""){
+                // fout<<"due to this"<<endl;
+                ans = temp_string;
+            }
+
+            // fout.close();
+        }
+
+        //undo the move
+        ring_update_self((final_result.second).first, (final_result.second).second, (final_result.first).first, (final_result.first).second);
+        remove_single_marker((final_result.first).first, (final_result.first).second);
+        switch_marker((final_result.first).first, (final_result.first).second, (final_result.second).first, (final_result.second).second);
+
         move_num++;
 
         //writing in file
