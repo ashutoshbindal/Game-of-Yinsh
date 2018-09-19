@@ -464,6 +464,11 @@ void remove_marker(int hex1, int pos1, int hex2, int pos2){
     }
 
     //removing the marker from the board_state
+    cordinate2 cart1_temp = hex2cart[pair<int, int>(hex1, pos1)];
+    cordinate2 cart2_temp = hex2cart[pair<int, int>(hex2, pos2)];
+    board_state1[cart1_temp.x][cart1_temp.y][cart1_temp.z] = -1;
+    board_state1[cart2_temp.x][cart2_temp.y][cart2_temp.z] = -1;
+
     for(int i=0; i<mark.size(); i++){
         pair<int, int> temp_hex = mark[i];
         cordinate2 temp = hex2cart[temp_hex];
@@ -951,6 +956,11 @@ void add_multiple_marker_self(int hex1, int pos1, int hex2, int pos2){
     }
 
     //adding the marker in board_state1
+    cordinate2 cart1_temp = hex2cart[pair<int, int>(hex1, pos1)];
+    cordinate2 cart2_temp = hex2cart[pair<int, int>(hex2, pos2)];
+    board_state1[cart1_temp.x][cart1_temp.y][cart1_temp.z] = 1;
+    board_state1[cart2_temp.x][cart2_temp.y][cart2_temp.z] = 1;
+
     for(int i=0; i<mark.size(); i++){
         pair<int, int> temp_hex = mark[i];
         cordinate2 temp = hex2cart[temp_hex];
@@ -978,6 +988,11 @@ void add_multiple_marker_opponent(int hex1, int pos1, int hex2, int pos2){
     }
 
     //adding the marker in board_state1
+    cordinate2 cart1_temp = hex2cart[pair<int, int>(hex1, pos1)];
+    cordinate2 cart2_temp = hex2cart[pair<int, int>(hex2, pos2)];
+    board_state1[cart1_temp.x][cart1_temp.y][cart1_temp.z] = 0;
+    board_state1[cart2_temp.x][cart2_temp.y][cart2_temp.z] = 0;
+
     for(int i=0; i<mark.size(); i++){
         pair<int, int> temp_hex = mark[i];
         cordinate2 temp = hex2cart[temp_hex];
