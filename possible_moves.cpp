@@ -97,10 +97,10 @@ void bound_ring(int x, int y, int z){
 			if(temp.x == x){
 				//this ring lies on the same x
 				if(temp.y < y && ring_bound[0].y <= temp.y){
-					ring_bound[0] = cordinate2 {x, temp.y+1, temp.z+1};
+					ring_bound[0] = cordinate2 {x, temp.y + 1, temp.z + 1};
 				}
 				if(temp.y > y && ring_bound[1].y>= temp.y){
-					ring_bound[1] = cordinate2 {x, temp.y-1, temp.z-1};
+					ring_bound[1] = cordinate2 {x, temp.y - 1, temp.z - 1};
 				}
 
 			}
@@ -212,21 +212,21 @@ vector<cordinate2> give_positions(int x, int y, int z){
 	for(j= ring_bound[0].y; j<= ring_bound[1].y; j++){
 		k++;
 		temp_cor = {x, j, k};
-		if(j!= y && k!= z && board_state1[x][j][k]== -1)	v.push_back(temp_cor);
+		if(j!= y && k!= z && board_state1[x][j][k]== -1 && cart_exist_ring(x, j, k) == -1)	v.push_back(temp_cor);
 	}
 	k = ring_bound[2].z - 1;
 	// cout<<"##"<<i<<"@@"<<k<<endl;
 	for(i= ring_bound[2].x; i<= ring_bound[3].x; i++){
 		k++;
 		temp_cor = {i, y, k};
-		if(i!= x && k!= z && board_state1[i][y][k]== -1)	v.push_back(temp_cor);
+		if(i!= x && k!= z && board_state1[i][y][k]== -1 && cart_exist_ring(i, y, k) == -1)	v.push_back(temp_cor);
 	}
 	i = ring_bound[4].x - 1;
 	// cout<<"##"<<i<<"@@"<<k<<endl;
 	for(j= ring_bound[4].y; j>= ring_bound[5].y; j--){
 		i++;
 		temp_cor = {i, j, z};
-		if(i!= x && k!= z && board_state1[i][j][z]== -1)	v.push_back(temp_cor);
+		if(i!= x && k!= z && board_state1[i][j][z]== -1 && cart_exist_ring(i, j, z) == -1)	v.push_back(temp_cor);
 	}
 	// cout<<"ending positions"<<endl;
 	return v;

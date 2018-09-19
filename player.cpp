@@ -113,7 +113,8 @@ void update_self(string move){
             //update board score
             cordinate2 temp_update_score = hex2cart[pair<int, int>(stoi(segment[1]), stoi(segment[2]))];
             update_board_score(temp_update_score.x, temp_update_score.y, temp_update_score.z);
-
+            update_hex_board_score(stoi(segment[7]), stoi(segment[8]));
+            update_hex_board_score(stoi(segment[10]), stoi(segment[11]));
             update_multiple_board_score(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
             update_multiple_board_score(stoi(segment[7]), stoi(segment[8]), stoi(segment[10]), stoi(segment[11]));
 		}
@@ -125,6 +126,8 @@ void update_self(string move){
         ring_remove_self(stoi(segment[7]), stoi(segment[8]));
 
         //update board score
+        update_hex_board_score(stoi(segment[1]), stoi(segment[2]));
+        update_hex_board_score(stoi(segment[4]), stoi(segment[5]));
         update_multiple_board_score(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
     }
 	else {
@@ -173,7 +176,8 @@ void update_opponent(string move){
             //update board score
             cordinate2 temp_update_score = hex2cart[pair<int, int>(stoi(segment[1]), stoi(segment[2]))];
             update_board_score(temp_update_score.x, temp_update_score.y, temp_update_score.z);
-
+            update_hex_board_score(stoi(segment[7]), stoi(segment[8]));
+            update_hex_board_score(stoi(segment[10]), stoi(segment[11]));
             update_multiple_board_score(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
             update_multiple_board_score(stoi(segment[7]), stoi(segment[8]), stoi(segment[10]), stoi(segment[11]));
             check_5_single(temp_update_score.x, temp_update_score.y, temp_update_score.z);
@@ -188,6 +192,8 @@ void update_opponent(string move){
         ring_remove_opponent(stoi(segment[7]), stoi(segment[8]));
 
         //update board score
+        update_hex_board_score(stoi(segment[1]), stoi(segment[2]));
+        update_hex_board_score(stoi(segment[4]), stoi(segment[5]));
         update_multiple_board_score(stoi(segment[1]), stoi(segment[2]), stoi(segment[4]), stoi(segment[5]));
     }
 	else{
@@ -1021,6 +1027,13 @@ int exist_ring(int hex, int pos){
     }
     int a = -1;
     return a;
+}
+
+int cart_exist_ring(int x, int y, int z){
+    pair<int, int> temp_hex = cart2hex[x][y][z];
+
+    int ans_ring = exist_ring(temp_hex.first, temp_hex.second);
+    return ans_ring;
 }
 
 string marker_5(pair<int, int> v, pair<int, int> hex_pos_parent, pair<int, int> hex_pos){
