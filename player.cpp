@@ -729,8 +729,10 @@ string get_move(){
 
                     //max score of all children
                     if(flag_parent_parent_skip) continue;
-                    if(min_gchild > max_child){
+                    cordinate2 probable_ans = hex2cart[hex_pos];
+                    if(min_gchild > max_child && board_state1[probable_ans.x][probable_ans.y][probable_ans.z] == -1){
 						// this_thread::sleep_for(chrono::milliseconds(5000));
+
                         max_child = min_gchild;
                         // pair<int, int> final_start;
                         final_start = {parent_temp_ring_hex.first, parent_temp_ring_hex.second};

@@ -25,12 +25,18 @@ int main(int argc, char** argv) {
 
     //just checking some functions
     // vector<pair<int, int> > ans_func = places(4, 12, 0, 0);
+    // pair<int, int> temp_hex;
+    // temp_hex = {0, 0};
     // ofstream fout;
     // fout.open("func_check.txt", ios_base::app);
-    // fout<<"size::"<<ans_func.size()<<endl;
-    // for(int i=0; i<ans_func.size(); i++){
-    //     fout<<ans_func[i].first<<" "<<ans_func[i].second<<endl;
-    // }
+    // cordinate2 temp_cart = hex2cart[temp_hex];
+    // fout<<temp_cart.x<<" "<<temp_cart.y<<" "<<temp_cart.z<<endl;
+    // pair<int, int> ans_hex = cart2hex[temp_cart.x][temp_cart.y][temp_cart.z];
+    // fout<<ans_hex.first<<" "<<ans_hex.second<<endl;
+    // // fout<<"size::"<<ans_func.size()<<endl;
+    // // for(int i=0; i<ans_func.size(); i++){
+    // //     fout<<ans_func[i].first<<" "<<ans_func[i].second<<endl;
+    // // }
     // fout.close();
 
     // Get input from server about game specifications

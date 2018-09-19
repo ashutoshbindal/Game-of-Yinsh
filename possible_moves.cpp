@@ -421,7 +421,23 @@ pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> 
 	for(j= bound_x[x][0]; j< bound_x[x][2]; j++){
 		k= bound_x[x][1]+cnt;
 		cnt++;
-		if(board_state1[x][j][k]== 1){
+		if(cart_exist_ring(x, j, k) != -1){
+			if(val_mine>=5){
+				v_mine.push_back(pair<cordinate2, cordinate2> (start_mine, end_mine));
+				val_mine= 0;
+				break;
+			}
+			if(val_opponent>=5){
+				v_opponent.push_back(pair<cordinate2, cordinate2> (start_opponent, end_opponent));
+				val_opponent= 0;
+				break;
+			}
+			opponent_flag = false;
+			mine_flag = false;
+			val_mine = 0;
+			val_opponent = 0;
+		}
+		else if(board_state1[x][j][k]== 1){
 			if(mine_flag){
 				val_mine++;
 				end_mine = {x, j, k};
@@ -500,7 +516,23 @@ pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> 
 	for(i= bound_y[y][0]; i< bound_y[y][2]; i++){
 		k= bound_y[y][1]+cnt;
 		cnt++;
-		if(board_state1[i][j][k]== 1){
+		if(cart_exist_ring(i, j ,k) != -1){
+			if(val_mine>=5){
+				v_mine.push_back(pair<cordinate2, cordinate2> (start_mine, end_mine));
+				val_mine= 0;
+				break;
+			}
+			if(val_opponent>=5){
+				v_opponent.push_back(pair<cordinate2, cordinate2> (start_opponent, end_opponent));
+				val_opponent= 0;
+				break;
+			}
+			opponent_flag = false;
+			mine_flag = false;
+			val_mine = 0;
+			val_opponent = 0;
+		}
+		else if(board_state1[i][j][k]== 1){
 			if(mine_flag){
 				val_mine++;
 				end_mine = {i, j, k};
@@ -580,7 +612,23 @@ pair<vector<pair<cordinate2, cordinate2> >, vector<pair<cordinate2, cordinate2> 
 	for(i= bound_z[z][0]; i< bound_z[z][2]; i++){
 		j= bound_z[z][1]-cnt;
 		cnt++;
-		if(board_state1[i][j][k]== 1){
+		if(cart_exist_ring(i, j, k) != -1){
+			if(val_mine>=5){
+				v_mine.push_back(pair<cordinate2, cordinate2> (start_mine, end_mine));
+				val_mine= 0;
+				break;
+			}
+			if(val_opponent>=5){
+				v_opponent.push_back(pair<cordinate2, cordinate2> (start_opponent, end_opponent));
+				val_opponent= 0;
+				break;
+			}
+			opponent_flag = false;
+			mine_flag = false;
+			val_mine = 0;
+			val_opponent = 0;
+		}
+		else if(board_state1[i][j][k]== 1){
 			if(mine_flag){
 				val_mine++;
 				end_mine = {i, j, k};
@@ -679,12 +727,12 @@ pair<pair<int, int>, pair<int, int> > select_5(pair<cordinate2, cordinate2> p){
 			}
 		}
 		else if((p.first).y == (p.second).y){
-			if((p.first).x < (p.second).y){
+			if((p.first).x < (p.second).x){
 				flag_left = true;
 			}
 		}
 		else{
-			if((p.first).x < (p.second).y){
+			if((p.first).x < (p.second).x){
 				flag_left = true;
 			}
 		}
